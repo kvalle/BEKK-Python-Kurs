@@ -53,15 +53,27 @@ TODO: MVC, projects -> apps, pluggbarhet (plugins)
 
 # Kom igang!
 
-    [sudo] easy_install pip (brew, aptitude, yum, ...)
+For dagens kurs vil vi dekke neste versjon av Django (1.4)
 
-    [sudo] pip install django
+    curl -O http://www.djangoproject.com/download/1.4-rc-2/tarball/
+    tar xzvf Django-1.4c2.tar.gz
+    sudo python setup.py install
 
-Start et prosjekt:
+---
+
+# Opprett prosjekt
 
     django-admin.py startproject del3
+    cd del3
+    python manage.py runserver
 
+---
 
+# Grunnleggende konfigurasjon (settings.py)
+
+* ADMINS
+* DATABASE
+* TIME_ZONE
 
 ---
 
