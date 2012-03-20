@@ -419,12 +419,36 @@ urls.py
 
 # Templates og arv
 
-Ofte er man interessert 
+Ofte er man interessert i å ha en basis-template som definerer et grunndesign,
+og bare bytte ut en liten bit av siden. Dette kan vi gjøre slik:
 
+base.html
 
+    <html>
+    <head>
+        <title>Todo liste</title>
+    </head>
+
+    <body>
+    {% block content %}
+
+    {% endblock}
+    <body>
+    </html>
+
+todo/templates/todo/overview.html
+
+    {% extends "base.html" %}
+
+    {% block content %}
+        <p>Innholdet her kommer inni blokken i base.html</p>
+    {% endblock %}
+
+---
 
 # Admin
 
+Django har en 
 
 ---
 
