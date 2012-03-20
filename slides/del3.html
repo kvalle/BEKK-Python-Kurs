@@ -53,13 +53,12 @@ TODO: MVC, projects -> apps, pluggbarhet (plugins)
 
 # Kom igang!
 
-For dagens kurs vil vi dekke neste versjon av Django (1.4)
+For dagens kurs vil vi dekke Django 1.3
 
-    curl -O http://www.djangoproject.com/download/1.4-rc-2/tarball/
-    tar xzvf Django-1.4c2.tar.gz
+    curl -O http://www.djangoproject.com/download/1.3.1/tarball/
+    tar xzvf Django-1.3.1.tar.gz
     sudo python setup.py install
 
-<<<<<<< Updated upstream
 ---
 
 # Opprett prosjekt
@@ -76,23 +75,11 @@ For dagens kurs vil vi dekke neste versjon av Django (1.4)
 * DATABASE [ENGINE, NAME]
 * TIME_ZONE
 
-    python manage.py syncdb
-=======
-settings.py
-* DB: sett backend til sqlite3, og et navn, f.eks db.sql
-* Husk å legge inn appen i INSTALLED_APPS
-* Legg inn path til project/templates i TEMPLATE_DIRS
->>>>>>> Stashed changes
-
 ---
 
 # Opprett applikasjon
 
     python manage.py startapp todos
-
-
-* MVC; men de kaller det MVT, Model, View, Template
-
 
 ---
 
@@ -110,13 +97,13 @@ Lag modell for Task, blablabla
 
 ---
 
-# ORMen
+# ORM
 
 * Språk for å hente ut objekter
 * Hvorfor ikke sql?
 * Eksempler, bruke shell
 
---- 
+---
 
 # Views
 
