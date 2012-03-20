@@ -422,7 +422,7 @@ urls.py
 Ofte er man interessert i å ha en basis-template som definerer et grunndesign,
 og bare bytte ut en liten bit av siden. Dette kan vi gjøre slik:
 
-base.html
+templates/base.html
 
     <html>
     <head>
@@ -444,11 +444,84 @@ todo/templates/todo/overview.html
         <p>Innholdet her kommer inni blokken i base.html</p>
     {% endblock %}
 
+Du kan også ha flere slike blokker. Hvis en blokk ikke er definert viser den bare innholdet den har i foreldre-templaten.
+
+---
+
+# Templates og arv
+
+Obs! Vi må huske å fortelle django at den skal lete etter templates i `templates/`:
+
+settings.py:
+
+    TEMPLATE_DIRS = (
+        '/absolutt/path/til/templates/mappa'
+    )
+
+Hvis du ikke vil skrive inn absolutt path kan du bruke dette lille trikset:
+
+    import os
+    ROOTPATH = os.path.dirname(__file__)
+
+    TEMPLATE_DIRS = (
+        os.path.join(ROOTPATH, "templates"),
+    )
+
+---
+
+.middle.center
+
+# Nå: Litt mer magi
+
 ---
 
 # Admin
 
-Django har en 
+Django kan lage admin-interface for deg automatisk!
+
+settings.py, avkommenter linjen om admin:
+
+    INSTALLED_APPS = (
+    'django.contrib.auth',
+    'django.contrib.contenttypes',
+    'django.contrib.sessions',
+    'django.contrib.sites',
+    'django.contrib.messages',
+    'django.contrib.staticfiles',
+    # Uncomment the next line to enable the admin:
+    'django.contrib.admin',
+    # Uncomment the next line to enable admin documentation:
+    #'django.contrib.admindocs',
+    'todo'
+)
+
+urls.py, avkommenter de tre linjene den sier du skal avkommentere
+
+todo/models.py, legg til:
+
+    from django.contrib import admin
+    admin.site.register(Task)
+
+Og gå til `127.0.0.1:8000/admin`
+
+---
+
+# Admin
+
+Djangoadminen kan relativt enkelt modifiseres,
+båte utseende og hvilke felter man får opp, hvor mange etc.
+
+Hva bør djangoadmin brukes til?
+
+* Legge inn oppstartsdata
+* Hvis bare du skal være admin
+* Enkle data
+
+Hva bør du IKKE bruke djangoadmin til?
+
+* Brukere som ikke er datakyndige
+* Hvis du må endre MYE for å få det pent/brukervennlig
+* Hvis du ikke bruker django-brukere
 
 ---
 
