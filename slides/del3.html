@@ -132,10 +132,12 @@ Hvis man får mange views er det vanlig å lage en mappe som heter views, og leg
 Beskriver data og hvordan dataene kan manipuleres. 
 Hver modell er direkte knyttet til en tabell i databasen
     
-        class Person (models.Model):
-            name = models.CharField(max_length=100)
-            age = models.IntegerField()
-            biography = models.TextField()
+    from django.db import models
+
+    class Person (models.Model):
+        name = models.CharField(max_length=100)
+        age = models.IntegerField()
+        biography = models.TextField()
 
 Dette korrosponderer til en tabell app_person i databasen med feltene `id`, `name`, `age` og `biography`
 
@@ -165,14 +167,16 @@ Mange forskjellige felttyper:
 
 Relasjoner til andre modeller er utrolig lett:
 
-        class Person (models.Model):
-            name = models.CharField(max_length=100)
-            age = models.IntegerField()
-            biography = models.TextField()
+    from django.db import models
 
-        class Dog (models.Model)
-            owner = models.ForeignKey(Person)
-            name = models.CharField(max_length=100)
+    class Person (models.Model):
+        name = models.CharField(max_length=100)
+        age = models.IntegerField()
+        biography = models.TextField()
+
+    class Dog (models.Model)
+        owner = models.ForeignKey(Person)
+        name = models.CharField(max_length=100)
 
 Mer om hvordan vi bruker slike relasjoner senere.
 
@@ -181,6 +185,8 @@ Mer om hvordan vi bruker slike relasjoner senere.
 # Modeller
 
 Modeller kan også ha metoder:
+
+    from django.db import models
 
     class Person (models.Model):
         name = models.CharField(max_length=100)
@@ -200,7 +206,7 @@ Modeller kan også ha metoder:
 
 ### Oppgaver
 
-* Lag en modell `Task`, som har et felt for tekst, og et heltallsfelt for rekkefølge.
+* Lag en modell `Task`, i `todo/models.py` som har et felt for tekst, og et heltallsfelt for rekkefølge.
 * Kjør `python manage.py syncdb` for å lage modellen 
 
 ---
@@ -216,7 +222,7 @@ Modeller kan også ha metoder:
         # Ikke en del av oppgaven; men veldig praktisk å ha!
         # Definerer hva som kommer ut når vi prøver å skrive ut et Task-objekt
         def __unicode__ (self):
-            return text
+            return self.text
 
 ---
 
@@ -409,6 +415,12 @@ urls.py
     )
 
 ---
+
+# Templates og arv
+
+Ofte er man interessert 
+
+
 
 # Admin
 
