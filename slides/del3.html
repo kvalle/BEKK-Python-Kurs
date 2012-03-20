@@ -94,8 +94,18 @@ For dagens kurs vil vi dekke Django 1.3
 
 # Oppgave
 
-* Lag en modell `Task`, som har et felt for tekst, og et for rekkefølge.
+* Lag en modell `Task`, som har et felt for tekst, og et heltallsfelt for rekkefølge.
 * Kjør `python manage.py syncdb` for å lage modellen 
+
+---
+
+# Fasit
+
+    from django.db import models
+
+    class Task (models.Model):
+        text = models.CharField(max_length=1000)
+        place = models.IntegerField(default=0)
 
 ---
 
@@ -119,16 +129,18 @@ Hver metode tilsvarer én side. Views kobler sammen data (modeller) med presenta
     
     def index (request):
 
-        # Laste inn objekter, lagre objekter fra forms, regne ut ting...
+        # Laste inn objekter, 
+        # lagre objekter fra forms, 
+        # regne ut ting, f.eks:
+        user = User.objects.get(id=1)
 
-        return render(request, 'index.html', variabler) # Returnere en HTTP respons
+        return render(request, 'index.html', {'user': user}) # Viser templaten 'index.html', og gjør `user` tilgjengelig i templaten.
 
 For at et view skal være tilgjengelig må du gi det en URL i `urls.py`:
 
     urlpatterns = patterns('',
         url(r'^$', 'app.views.index'), # Sier at URL-en / skal gå til metoden index
     )
-)
 
 ---
 
@@ -141,18 +153,57 @@ Templates er rett og slett HTML, med et eget språk i tillegg:
 
     {% if user.age >= 18 %}
         <p>And you can buy alcohol!</p>
-    {% endif }
+    {% endif %}
+
+Objektet `user` kommer fra templaten:
+
+    return render(request, 'index.html', {'user': user})
 
 ---
 
 # Oppgave
 
-* Lag et view for å se alle tasks
+* Lag et view `overview` i `todo/views.py` som skal vise alle tasks
 * Lag en template til dette viewet
-* Legg viewet inn i URL-conf
+
+    Tips! Iterere gjennom en liste:
+    {% for task in tasks %}
+        <li>{{ task.text }}</li>
+    {% endfor }
+
+* Gi viewet ditt en URL, slik at du kan nå det, og teste det
 
 ---
 
+# Fasit
+
+todo/views.py:
+
+    from django.shortcuts import render
+    from del3.todo.models import Task
+
+    def overview (request):
+        tasks = Task.objects.all()    
+        
+        return render(request, 'todo/overview.html', {'tasks': tasks})
+
+todo/templates/todo/overview.html
+
+    <h2>Tasks</h2>
+    
+    <ul>
+        {% for task in tasks %}
+            <li>{{ task.text }}</li>
+        {% endfor %}
+    </ul>
+
+urls.py
+    
+    urlpatterns = patterns('',
+        url(r'^$', 'todo.views.overview'),
+    )
+
+---
 
 # Admin
 
