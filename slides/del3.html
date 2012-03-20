@@ -79,7 +79,7 @@ For dagens kurs vil vi dekke Django 1.3
 
 # Opprett applikasjon
 
-    python manage.py startapp todos
+    python manage.py startapp todo
 
 ---
 
@@ -88,35 +88,60 @@ For dagens kurs vil vi dekke Django 1.3
 * Kobling til databasen
 * Forskjellige felttyper
 * syncdb
+* Syntaks
 
 ---
 
 # Oppgave
 
-Lag modell for Task, blablabla
+* Lag en modell `Task`, som har et felt for tekst, og et for rekkefølge.
+* Kjør `python manage.py syncdb` for å lage modellen 
 
 ---
 
-# ORM
+# ORM-EN
 
-* Språk for å hente ut objekter
-* Hvorfor ikke sql?
-* Eksempler, bruke shell
+Object Relational Mapper, Django håndterer SQL for oss:
+
+    User.objects.all() # Hent ut alle tasks
+    User.objects.get(id=3) # Hent ut bare én
+    User.objects.filter(age=20) # Hent ut alle med alder lik 20
+
+    u = User(name="Håkon", age=22) # Lager en bruker Håkon, men lagrer det IKKE i databasen
+    u.save() # Lagrer det i databasen
+    print u.id # Etter lagring har objektet fått en ID
 
 ---
 
 # Views
 
-* Hver metode tilsvarer én side
-* Kobler sammen data (modeller) med presentasjon (templates)
-* URL-conf
+Hver metode tilsvarer én side. Views kobler sammen data (modeller) med presentasjon (templates):
+    
+    def index (request):
+
+        # Laste inn objekter, lagre objekter fra forms, regne ut ting...
+
+        return render(request, 'index.html', variabler) # Returnere en HTTP respons
+
+For at et view skal være tilgjengelig må du gi det en URL i `urls.py`:
+
+    urlpatterns = patterns('',
+        url(r'^$', 'app.views.index'), # Sier at URL-en / skal gå til metoden index
+    )
+)
 
 ---
 
 # Templates
 
-* HTML
-* Template-språket
+Templates er rett og slett HTML, med et eget språk i tillegg:
+
+    <h1>Hello {{ user }}</h1>
+    <p>You are {{ user.age }} years old! </p>
+
+    {% if user.age >= 18 %}
+        <p>And you can buy alcohol!</p>
+    {% endif }
 
 ---
 
