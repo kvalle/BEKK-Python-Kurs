@@ -54,13 +54,13 @@ Nevn: https://docs.djangoproject.com/en/1.3/
 
 # Kom igang!
 
-MacOS (og Linux, hvis du har easy_install):
+OS X (og Linux, hvis du har easy_install):
 
     sudo easy_install pip
     sudo pip install django
 
 
-Linux (og MacOS, hvis du av en eller annen grunn ikke har easy_install):
+Linux (og OS X, hvis du av en eller annen grunn ikke har easy_install):
 
     curl -L -o Django-1.3.1.tar.gz http://www.djangoproject.com/download/1.3.1/tarball/
     tar xzvf Django-1.3.1.tar.gz
@@ -137,7 +137,7 @@ Hver modell er direkte knyttet til en tabell i databasen
             age = models.IntegerField()
             biography = models.TextField()
 
-Dette korrosponderer til en tabell app_person i databasen med feltene `id`, `name`, `age` og `biography`
+Dette korresponderer til en tabell app_person i databasen med feltene `id`, `name`, `age` og `biography`
 
 Felter kan ta inn forskjellige parametere som endrer oppførselen, f.eks kan alle felter ta inn en default:
 
@@ -301,7 +301,7 @@ For at et view skal være tilgjengelig må du gi det en URL i `urls.py`:
 
 # Templates
 
-Templates er rett og slett HTML, med et eget språk i tillegg:
+Templates er rett og slett HTML, med et eget template-språk i tillegg:
 
     .html
     <h1>Hello {{ user }}</h1>
@@ -392,7 +392,7 @@ todo/views.py:
         
         return render(request, 'todo/overview.html', {'tasks': tasks})
 
-todo/templates/todo/overview.html
+todo/templates/todo/overview.html:
 
     <h2>Tasks</h2>
     
@@ -422,6 +422,34 @@ urls.py
 
 # Deploy
 
+Heroku! Krever Ruby 1.8.6 eller nyere installert.
+
+Windows: RubyInstaller, Linux: aptitude/yum install ruby rubygems
+
+I console, <code>gem install heroku</code>. Du får nå en kommando `heroku` som hjelper deg å deployere applikasjoner
+til heroku.
+
+Opprett applikasjon
+
+    heroku create --stack cedar
+
+---
+
+# Deploy #2 (Virtual environment)
+
+Det neste vi må gjøre er å sette opp applikasjonen vårt i `virtualenv`. Virtualenv er en abstraksjon (lik rvm) for å 
+distribuere fullstendige python-miljøer.
+
+    $ virtualenv heroku --distribute
+    New python executable in heroku/bin/python
+    Installing distribute...........done.
+    Installing pip..................done.
+
+    $ source heroku/bin/activate
+    $ pip install Django
+    ...
+    $ pip freeze > dependencies.txt
+    echo "heroku" >> .gitignore
 
 
 ---
