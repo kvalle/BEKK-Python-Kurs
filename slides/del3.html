@@ -59,6 +59,7 @@ For dagens kurs vil vi dekke neste versjon av Django (1.4)
     tar xzvf Django-1.4c2.tar.gz
     sudo python setup.py install
 
+<<<<<<< Updated upstream
 ---
 
 # Opprett prosjekt
@@ -76,6 +77,12 @@ For dagens kurs vil vi dekke neste versjon av Django (1.4)
 * TIME_ZONE
 
     python manage.py syncdb
+=======
+settings.py
+* DB: sett backend til sqlite3, og et navn, f.eks db.sql
+* Husk å legge inn appen i INSTALLED_APPS
+* Legg inn path til project/templates i TEMPLATE_DIRS
+>>>>>>> Stashed changes
 
 ---
 
@@ -84,9 +91,56 @@ For dagens kurs vil vi dekke neste versjon av Django (1.4)
     python manage.py startapp todos
 
 
+* MVC; men de kaller det MVT, Model, View, Template
 
 
 ---
+
+# Modeller
+
+* Kobling til databasen
+* Forskjellige felttyper
+* syncdb
+
+---
+
+# Oppgave
+
+Lag modell for Task, blablabla
+
+---
+
+# ORMen
+
+* Språk for å hente ut objekter
+* Hvorfor ikke sql?
+* Eksempler, bruke shell
+
+--- 
+
+# Views
+
+* Hver metode tilsvarer én side
+* Kobler sammen data (modeller) med presentasjon (templates)
+* URL-conf
+
+---
+
+# Templates
+
+* HTML
+* Template-språket
+
+---
+
+# Oppgave
+
+Lag et view for å se alle tasks
+Lag en template til dette viewet
+Legg viewet inn i URL-conf
+
+---
+
 
 # Admin
 
