@@ -85,10 +85,52 @@ For dagens kurs vil vi dekke Django 1.3
 
 # Modeller
 
-* Kobling til databasen
-* Forskjellige felttyper
-* syncdb
-* Syntaks
+* Beskriver data og hvordan dataene kan manipuleres
+* Hver modell er direkte knyttet til en tabell i databasen
+    
+    .python
+    class Person (models.Model):
+        name = models.CharField(max_length=100)
+        age = models.IntegerField()
+        biography = models.TextField()
+
+* Dette korrosponderer til en tabell app_person i databasen med feltene `id`, `name`, `age` og `biography`
+
+---
+
+# Modeller
+
+* Relasjoner til andre modeller er utrolig lett:
+    
+    .python
+    class Person (models.Model):
+        name = models.CharField(max_length=100)
+        age = models.IntegerField()
+        biography = models.TextField()
+
+    class Dog (models.Model)
+        owner = models.ForeignKey(Person)
+        name = models.CharField(max_length=100)
+
+* Mer om hvordan vi bruker slike relasjoner senere
+
+---
+
+# Modeller
+
+* Modeller kan også ha metoder:
+
+    class Person (models.Model):
+        name = models.CharField(max_length=100)
+        age = models.IntegerField()
+        biography = models.TextField()
+
+    def increase_age (self):
+        self.age += 1
+        self.save()
+
+* `save()` og `delete()` er to magiske metoder vi skal se mer på senere.
+
 
 ---
 
@@ -107,6 +149,11 @@ For dagens kurs vil vi dekke Django 1.3
         text = models.CharField(max_length=1000)
         place = models.IntegerField(default=0)
 
+    # Ikke en del av oppgaven; men veldig praktisk å ha!
+    # Definerer hva som kommer ut når vi prøver å skrive ut et Task-objekt
+    def __unicode__ (self):
+        return text
+
 ---
 
 # ORM-EN
@@ -123,6 +170,45 @@ Object Relational Mapper, Django håndterer SQL for oss:
 
 ---
 
+# ORM-EN
+
+Litt mer avansert:
+
+    # Hent alle brukere med fødselsår senere eller lik 1996
+    users = User.objects.filter(birth__year__gte=1996) # birth er et DateTimeField
+
+    # Oppdater alle brukerene vi hentet i linja over
+    users.update(bieber_fever=True) 
+
+    users.count() # Kjører en COUNT spørring
+    len(users) # Kjører en vanlig spørring, lager en liste av dem, og finner lengden til lista
+
+    # Hent ut eieren til en hund
+    dog = Dog.objects.get(name="Fido")
+    print dog.owner
+
+    # Hent alle hunder eid av en viss bruker:
+    user = User.objects.get(id=1)
+    dogs = user.dog_set.all()
+
+    # Slett brukeren
+    user.delete()
+
+---
+
+# Oppgaver
+
+Start opp `manage.py shell` og gjør følgende:
+* Legg inn 5 oppgaver
+* print() ut navnene på alle oppgaver som er i databasen nå
+* Hent ut en oppgave, og slett den
+* print() ut navnene på nytt, og bekreft at oppgaven er slettet
+* Hent ut alle oppgavene som har id større enn 3
+* Prøv litt deg litt frem: prøv .count(), .update(), .filter()
+
+
+---
+
 # Views
 
 Hver metode tilsvarer én side. Views kobler sammen data (modeller) med presentasjon (templates):
@@ -134,7 +220,8 @@ Hver metode tilsvarer én side. Views kobler sammen data (modeller) med presenta
         # regne ut ting, f.eks:
         user = User.objects.get(id=1)
 
-        return render(request, 'index.html', {'user': user}) # Viser templaten 'index.html', og gjør `user` tilgjengelig for templatespråket.
+        return render(request, 'index.html', {'user': user}) # Viser templaten 'index.html', og gjør 
+        `user` tilgjengelig for templatespråket.
 
 For at et view skal være tilgjengelig må du gi det en URL i `urls.py`:
 
@@ -171,7 +258,7 @@ Tips! Iterere gjennom en liste:
     .html
     {% for task in tasks %}
         <li>{{ task.text }}</li>
-    {% endfor }
+    {% endfor %}
 
   
 
