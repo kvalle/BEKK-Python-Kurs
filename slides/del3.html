@@ -134,12 +134,12 @@ Hver metode tilsvarer én side. Views kobler sammen data (modeller) med presenta
         # regne ut ting, f.eks:
         user = User.objects.get(id=1)
 
-        return render(request, 'index.html', {'user': user}) # Viser templaten 'index.html', og gjør `user` tilgjengelig i templaten.
+        return render(request, 'index.html', {'user': user}) # Viser templaten 'index.html', og gjør `user` tilgjengelig for templatespråket.
 
 For at et view skal være tilgjengelig må du gi det en URL i `urls.py`:
 
     urlpatterns = patterns('',
-        url(r'^$', 'app.views.index'), # Sier at URL-en / skal gå til metoden index
+        url(r'^$', 'app.views.index'), # Sier at URL-en '/' skal gå til metoden index
     )
 
 ---
@@ -155,7 +155,7 @@ Templates er rett og slett HTML, med et eget språk i tillegg:
         <p>And you can buy alcohol!</p>
     {% endif %}
 
-Objektet `user` kommer fra templaten:
+Objektet `user` kommer fra viewet:
 
     return render(request, 'index.html', {'user': user})
 
@@ -164,14 +164,18 @@ Objektet `user` kommer fra templaten:
 # Oppgave
 
 * Lag et view `overview` i `todo/views.py` som skal vise alle tasks
-* Lag en template til dette viewet
+* Lag en template `overview.html` til dette viewet. Legg den i todo/templates/todo/.
 
-    Tips! Iterere gjennom en liste:
+Tips! Iterere gjennom en liste:
+
+    .html
     {% for task in tasks %}
         <li>{{ task.text }}</li>
     {% endfor }
 
-* Gi viewet ditt en URL, slik at du kan nå det, og teste det
+  
+
+* Gi viewet ditt en URL i `urls.py`, slik at du kan nå det, og teste det
 
 ---
 
