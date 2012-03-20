@@ -53,11 +53,26 @@ TODO: MVC, projects -> apps, pluggbarhet (plugins)
 
 # Kom igang!
 
-For dagens kurs vil vi dekke Django 1.3
+MacOS (og Linux, hvis du har easy_install):
 
-    curl -O http://www.djangoproject.com/download/1.3.1/tarball/
+    sudo easy_install pip
+    sudo pip install django
+
+
+Linux (og MacOS, hvis du av en eller annen grunn ikke har easy_install):
+
+    curl -L -o Django-1.3.1.tar.gz http://www.djangoproject.com/download/1.3.1/tarball/
     tar xzvf Django-1.3.1.tar.gz
-    sudo python setup.py install
+    sudo python Django-1.3.1/setup.py install
+    
+
+Windows:
+
+    Last ned: http://www.djangoproject.com/download/1.3.1/tarball/
+    Pakk opp fila
+    Finn mappen i kommandovindu, og kjør `python setup.py install`
+    Litt kryptisk: Legg til MappeDuHarPythonI/site-packages/ i miljøvariabelen PATH
+    (Win7: Trykk windows-tast, skriv 'var', velg "endre miljovariabler", finn PATH, og legg til mappen med ; bak)
 
 ---
 
@@ -278,7 +293,7 @@ Eller, hvis man vil gjøre noe spesielt hvis lista er tom:
 
 ---
 
-# Notat om templates og mappestruktur
+# Om templates og mappestruktur
 
 Konvensjoner:
 
