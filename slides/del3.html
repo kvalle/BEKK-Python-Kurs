@@ -27,6 +27,7 @@
 Forelesning ved NTNU
 
 Håkon Erichsen 
+
 Hjelpelærere: Åsmund Eldhuset, Jonas Follesø og Ole Christian Rynning
 
 21/03/2012
@@ -37,19 +38,25 @@ Hjelpelærere: Åsmund Eldhuset, Jonas Follesø og Ole Christian Rynning
 
 # Agenda
 
-* Django's arkitektur
+* Hvorfor Django?
 * Kom igang!
 * Modell, visning og kontrollere
 * Administrasjonsgrensesnitt
-* Autentisering med Facebook
+* Autentisering
 * Release!
 
 ---
 
-# Django's arkitektur
+# Hvorfor Django?
 
-TODO: MVC, projects -> apps, pluggbarhet (plugins)
-Nevn: https://docs.djangoproject.com/en/1.3/
+* Python!
+* Open Source
+* Laget for rask utvikling
+* "Alt i en pakke"
+* Utrolig god dokumentasjon på [djangoproject.com](https://docs.djangoproject.com/en/1.3/)
+* MVC-struktur
+* ORM-en er utrolig deilig (men farlig...) 
+* Pluggbarhet (søk på django på [github](https://github.com/search?utf8=%E2%9C%93&q=django&type=Everything&repo=&langOverride=&start_value=1))
 
 ---
 
@@ -125,6 +132,8 @@ Dette lager en mappe `todo`, med følgende filer:
 
 Dette er bare konvensjoner. Det er ingenting som hindrer deg fra å putte views i tests.py eller models.py.
 Hvis man får mange views er det vanlig å lage en mappe som heter views, og legge flere filer under den mappen.
+
+NB: Husk å legge inn appen din under INSTALLED_APPS i settings.py!
 
 ---
 
@@ -525,8 +534,109 @@ Hva bør du IKKE bruke djangoadmin til?
 
 ---
 
-# Auth
+# Forms
 
+Django kan lage forms (skjema) automatisk fra modeller, med et ModelForm.
+
+Lag en fil som heter todo/forms.py:
+
+    from django import forms
+    from todo.models import Task
+
+    class TaskForm (forms.ModelForm):    
+        class Meta:
+            model = Task
+
+
+Endre `overview` i todo/views.py til:
+
+    def overview (request):
+
+        if request.method == 'POST':
+            form = TaskForm(request.POST)
+            
+            if form.is_valid():
+                form.save()
+
+        else:
+            form = TaskForm()
+                
+        tasks = Task.objects.all()
+
+        return render(request, 'todo/overview.html', {'tasks': tasks, 'form': form})
+
+---
+
+# Forms
+
+Og til slutt, legg inn dette et egnet i templates/overview.html:
+
+    <form action="" method="POST">
+        {{ form.as_p }}
+    
+        {% csrf_token %}
+        <input type="submit" value="Add it!">
+    </form>
+
+`form.as_p` er her en magisk funksjon som lager mesteparten av skjemaet for deg. Eneste du må legge til selv
+er <form> tagger og submit-knappen.
+
+---
+
+# Autentisering
+
+Autentisering kan også gjøres veldig enkelt. Først må vi bare legge til en URL til login i urls.py:
+
+    url(r'^accounts/login/$', 'django.contrib.auth.views.login'),
+
+Sett så `from django.contrib.auth.decorators import login_required` på 
+toppen av views.py, og legg inn decoratoren `@login_required` over views du vil beskytte, f.eks slik:
+    
+    from django.contrib.auth.decorators import login_required
+
+    @login_required
+    def overview (request):
+        ...
+
+    @login_required
+    def et_annet_view (request):
+        ...
+
+---
+
+# Autentisering
+
+Nå vil det NESTEN fungere. Men vi må lage en login-side også:
+
+templates/registration/login.html
+
+    {% extends "base.html" %}
+    {% load url from future %}
+
+    {% block content %}
+
+        {% if form.errors %}
+            <p>Your username and password didn't match. Please try again.</p>
+        {% endif %}
+
+        <form method="post" action="{% url 'django.contrib.auth.views.login' %}">
+            {% csrf_token %}
+            <table>
+                <tr>
+                    <td>{{ form.username.label_tag }}</td>
+                    <td>{{ form.username }}</td>
+                </tr>
+                <tr>
+                    <td>{{ form.password.label_tag }}</td>
+                    <td>{{ form.password }}</td>
+                </tr>
+            </table>
+
+            <input type="submit" value="login" />
+            <input type="hidden" name="next" value="{{ next }}" />
+        </form>
+
+    {% endblock %}
 
 ---
 
@@ -575,6 +685,23 @@ distribuere fullstendige python-miljøer.
     git commit -am "Ready for heroku\!"
 
     git push heroku master
+
+
+---
+
+# Oppsummering
+
+Django gir deg:
+
+* Gratis struktur
+* En kjekk ORM og et bra template-språk
+* Masse nyttige gratiskonstruksjoner
+* En vanvittig bra dokumentasjon, les den!
+
+Men:
+
+* Ikke like "magisk" som Ruby
+* Eksplisitt > implisitt
 
 
 ---
