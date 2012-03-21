@@ -642,23 +642,30 @@ templates/registration/login.html
 
 ---
 
-# Deploy
+# Installer heroku
 
-Heroku! Krever Ruby 1.8.6 eller nyere installert, samt at du bruker git versjonskontroll.
+Heroku krever Ruby installert, samt at du bruker git versjonskontroll.
 
 Windows: RubyInstaller, Linux: aptitude/yum install ruby rubygems
 
-I console, <code>gem install heroku</code>. Du får nå en kommando `heroku` som hjelper deg å deployere applikasjoner
-til heroku.
+Du må så installere heroku sin RubyGem (bibliotek):
+
+    gem install heroku
+
+Du får nå en kommando `heroku` som hjelper deg å deployere applikasjoner til heroku.
+
+---
+
+# Opprett ny Heroku applikasjon
 
 Opprett en applikasjon på heroku:
 
-    ➜ heroku create --stack cedar
+    $ heroku create --stack cedar
     Creating pure-dusk-3005... done, stack is cedar
     http://pure-dusk-3005.herokuapp.com/ | git@heroku.com:pure-dusk-3005.git
     Git remote heroku added
 
-    ➜ git remote   
+    $ git remote   
     heroku
     origin
 
@@ -667,18 +674,18 @@ Opprett en applikasjon på heroku:
 
 ---
 
-# Deploy #2 (Virtual environment)
+# Opprett Virtual environment
 
 Det neste vi må gjøre er å sette opp applikasjonen vårt i `virtualenv`. Virtualenv er en abstraksjon (lik rvm) for å 
 distribuere fullstendige python-miljøer.
 
-    sudo pip install virtualenv
+    $ sudo pip install virtualenv
 
-    virtualenv heroku-env --distribute
+    $ virtualenv heroku-env --distribute
     New python executable in heroku-env/bin/python
     Installing distribute........done.
     Installing pip...............done. 
-    echo "heroku-env" >> .gitignore
+    $ echo "heroku-env" >> .gitignore
 
 Vi aktiverer så det nye virtuelle miljøet, og installerer nødvendige pakker:
 
@@ -688,9 +695,9 @@ Vi aktiverer så det nye virtuelle miljøet, og installerer nødvendige pakker:
 
 ---
 
-# Deploy #3
+# Heroku + Django #3
 
-Heroku krever to filer for å fungere: `requirements.txt` for å styre avhengigheter, og `Procfile` for å styre prosesser (web og workers):
+I tillegg til å pakke prosjektet ditt i en egen mappe (eks. del3) krever Heroku to filer for å kjøre Django: `requirements.txt` -- for å styre avhengigheter, og `Procfile` -- for å styre prosesser (web og workers):
 
     pip freeze > requirements.txt
     echo -e 'web: python del3/manage.py run_gunicorn -b "0.0.0.0:$PORT" -w 3' > Procfile
@@ -700,10 +707,9 @@ Som du ser over, bruker vi gunicorn som webserver, vi må derfor også legge den
 Da kan vi pushe:
 
     git commit -am "Ready for heroku\!"
-
     git push heroku master
 
-Sett opp database:
+Og til slutt sette opp database:
 
     heroku run python del3/manage.py syncdb
 
