@@ -639,12 +639,12 @@ I den nye funksjonen kan vi definere funksjonalitet som skal skje før og etter 
     ... 
     >>> @foo
     ... def bar():
-    ...     print "i den dekorerte funksjon"
+    ...     print "inne i den dekorerte funksjonen"
     ... 
     inne i dekoratoren
     >>> bar()
     starter wrapper-funksjonen
-    i den dekorerte funksjon
+    inne i den dekorerte funksjonen
     slutter wrapper-funksjonen
 
 ---
@@ -792,7 +792,7 @@ Her er `gjenta` egentlig en funksjon som genererer dekoratorer. `gjenta(4)` lage
 
 1. Lag en `@ignore` decorator som gjør at kall til den dekorerte funksjonen ikke lenger gjør noenting.
 1. Lag en dekorator `@timed` som tar tiden på den dekorerte funksjonen. 
-1. Lag dekoratoren `@deprecated` som skriver ut en advarsel hvis noen bruker den dekorerte funksjonern. Bonus hvis du klarer å inkludere navnet på funksjonen i advarselen.
+1. Lag dekoratoren `@deprecated` som skriver ut en advarsel hvis noen bruker den dekorerte funksjonen. Bonus hvis du klarer å inkludere navnet på funksjonen i advarselen.
 1. Gitt implementasjonen av fibonacci under, lag dekoratoren `@memoize` som lagrer og gjenbruker delløsningene. Regn så ut `fib(100)`.
 
 Slik finner du tidspunkt i Python:
