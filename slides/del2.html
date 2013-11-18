@@ -30,10 +30,14 @@ Lambda-funksjoner
 Dekoratorer
 
 ---
+class: center, middle, inverse
 
-# List comprehension
+# List comprehensions
 
-List comprehensions er en konsis syntaks for å lage eller transformere lister.
+---
+class: middle
+
+Konsis syntaks for å lage eller transformere lister.
 Lar deg enkelt *iterere* over lister og *transformere* og *filtrere* elementene.
 
 Syntaks:
@@ -47,8 +51,7 @@ resultat = [output for var in list if condition]
 - `if condition` kan filtrere bort elementer vi ikke ønsker å få med i resultatet. Dette siste leddet er valgfritt.
 
 ---
-
-# List comprehension
+class: middle
 
 ### Et enkelt eksempel
 
@@ -74,8 +77,7 @@ Med list comprehension kan vi i stedet skrive dette som:
 Hva skjer her? Vi itererer `for i in range(10)`, filtrerer `if i%3 == 0`, og transfomerer de resterende elementene til `-i`.
 
 ---
-
-# List comprehension
+class: middle
 
 List comprehensions kan også gjøres med nestede løkker:
 
@@ -90,8 +92,7 @@ Eksempel med 3 nivåer:
 ```
 
 ---
-
-# List comprehension
+class: middle
 
 Fra Python 2.7 finnes det også tilsvarende syntax for å lage set og dictionaries:
 
@@ -105,8 +106,7 @@ set([0, 1, 2])
 ```
 
 ---
-
-# List comprehension
+class: middle
 
 ### Oppgaver
 
@@ -119,10 +119,9 @@ Gjør følgende ved hjelp av list comprehensions:
 1. Generer gangetabellen for tallene fra 1 til 10 som en 2-dimensjonal liste.
 
 ---
+class: middle
 
-# List comprehension
-
-### Løsninger
+### Løsning
 
 Lag en liste med 2er-potenser. Hint: `2 ** i` gir *2*<sup>*i*</sup>.
 
@@ -131,13 +130,23 @@ Lag en liste med 2er-potenser. Hint: `2 ** i` gir *2*<sup>*i*</sup>.
 [2, 4, 8, 16, 32, 64, 128, 256, 512]
 ```
 
+---
+class: middle
+
+### Løsning
+
 Lag dictionary over de samme potensene der nøkkel er `i` og verdi er `2**i`.
 
 ```python
 >>> {i: 2**i for i in range(1,10)}
 {1: 2, 2: 4, 3: 8, 4: 16, 5: 32, 6: 64, 7: 128, 8: 256, 9: 512}
 ```
-        
+
+---
+class: middle
+
+### Løsning
+
 Lag en liste med alle tall mellom 1 og 100 som er delelig på enten 3 eller 7 men ikke begge.
 
 ```python
@@ -148,11 +157,9 @@ Lag en liste med alle tall mellom 1 og 100 som er delelig på enten 3 eller 7 me
 ```
 
 ---
+class: middle
 
-# List comprehension
-
-### Løsninger
-
+### Løsning
         
 Lag liste med alle oddetall som er multiplikat av et tall fra 3 til 7 og et tall fra 10 til 14.
 
@@ -160,6 +167,11 @@ Lag liste med alle oddetall som er multiplikat av et tall fra 3 til 7 og et tall
 >>> [i*j for i in range(3,8) for j in range(10,15) if i*j%2 != 0]
 [33, 39, 55, 65, 77, 91]
 ```
+
+---
+class: middle
+
+### Løsning
 
 Generer gangetabellen for tallene fra 1 til 10 som en 2-dimensjonal liste.
 
@@ -180,8 +192,12 @@ Generer gangetabellen for tallene fra 1 til 10 som en 2-dimensjonal liste.
 ```
 
 ---
+class: inverse, middle, center
 
 # Generatorer og iteratorer
+
+---
+class: middle
 
 Iteratorer er kanskje ikke veldig spennende, men det er en viktig byggesten.
 Flere av de python-elementene vi allerede kjenner kan fungere som iteratorer..
@@ -203,8 +219,7 @@ StopIteration
 ```
 
 ---
-
-# Generatorer og iteratorer
+class: middle
 
 Syntaktisk sukker
 
@@ -217,8 +232,7 @@ Syntaktisk sukker
 ```
 
 ---
-
-# Generatorer og iteratorer
+class: middle
 
 La oss implementere en iterator selv:
 
@@ -247,8 +261,7 @@ Og bruke den:
 ```
 
 ---
-
-# Generatorer og iteratorer
+class: middle
 
 Dette var mye styr, kan det gjøres enklere? Yep, med generatorer:
 
@@ -269,12 +282,9 @@ Resultat:
 ```
 
 ---
+class: middle
 
-# Generatorer og iteratorer
-
-### Hva er nytteverdien?
-
-Uendelige lister, store datamengder:
+Hva er nytteverdien? Uendelige lister, store datamengder:
 
 ```python
 >>> from itertools import count
@@ -287,13 +297,17 @@ Uendelige lister, store datamengder:
 2
 ```
 
-Spørsmål: Hvordan holder man en uendelig liste i minne?!
+*Spørsmål: Hvordan holder man en uendelig liste i minne?!*
 
 ---
+class: middle, inverse, center
 
 # Generator expressions
 
-List comprehensions kan automagisk skrives som en generator:
+---
+class: middle
+
+Et list comprehension kan automagisk skrives som en generator:
 
 ```python
 >>> liste = [i for i in range(10)]
@@ -325,8 +339,7 @@ List comprehensions kan automagisk skrives som en generator:
 Hva skjedde her?
 
 ---
-
-# Generator expressions
+class: middle
 
 ### Fordeler
 
@@ -345,8 +358,7 @@ Hva skjedde her?
 - Kan ikke bruke indeksering/slicing eller de vanlige liste-metodene (`append`, `insert`, `count`, `sort`, etc).
 
 ---
-
-# Generator expressions
+class: middle
 
 ### Oppgaver:
 
@@ -361,8 +373,8 @@ Hva skjedde her?
    Bruk denne til å finne det 100 000'ende fibonacci-tallet.
 
 ---
-
-### Løsninger:
+class: middle
+### Løsning
 
 Lag en list comprehension som lister opp alle partall under 20, og print dem
 
@@ -374,6 +386,10 @@ Lag en list comprehension som lister opp alle partall under 20, og print dem
 0 2 4 6 8 10 12 14 16 18
 ```
 
+---
+class: middle
+### Løsning
+
 Lag et generator expression som gjør det samme. Print dem.
 
 ```python
@@ -384,18 +400,24 @@ Lag et generator expression som gjør det samme. Print dem.
 0 2 4 6 8 10 12 14 16 18
 ```
 
+---
+class: middle
+### Løsning
+
 Lag en generator som lister opp ALLE partall.
 
 ```python
 >>> def alle_partall():
 ...     i = 0
 ...     while True:
-...             if i%2 == 0:
-...                     yield i
-...             i += 1
+...         if i%2 == 0:
+...             yield i
+...         i += 1
 ```
 
 ---
+class: middle
+### Løsning
 
 Lag et generator expression som lister opp ALLE partall.
 	
@@ -404,16 +426,24 @@ Lag et generator expression som lister opp ALLE partall.
 >>> allepartall = (i for i in count() if i%2 == 0)
 ```
 
+---
+class: middle
+### Løsning
+
 Lag en generator som generer tall-sekvensen 1, -1, 2, -2, 3, -3, ...
 
 ```python
 >>> def plusminus():
 ...     i = 1
 ...     while True:
-...             yield i
-...             yield -i
-...             i += 1
+...         yield i
+...         yield -i
+...         i += 1
 ```
+
+---
+class: middle
+### Løsning
 
 Lag en generator som genererer fibonacci-tallene.  
 Bruk denne til å finne det 100 000'ende fibonacci-tallet.
@@ -428,30 +458,34 @@ Bruk denne til å finne det 100 000'ende fibonacci-tallet.
 >>> a = fib()
 >>> for i in xrange(100000):
 ...     result  = a.next()
+...
+>>> # result har for mange siffer til vises her, prøv selv
 ```
 
 ---
 class: inverse, middle, center
 
-# Pause!
+## *Pause!*
 
 ---
+class: inverse, middle, center
 
 # Funksjoner
 
-Funksjoner i python er *førsteklasses*, og vi kan derfor gjøre mer med dem enn vi er vant med fra Java.
-At funksjonene er førsteklasses vil si at vi kan...
+---
+class: middle
 
-1. sende dem inn som argumenter til andre funksjoner
-1. returnere dem fra funksjoner
-1. tilordne dem til variabler
-1. lagre dem i datastrukturer
+Python har såkalte ***førsteklasses funksjoner***. Funksjoner kan dermed behandles på samme måte som alle andre verdier en behandler i språket. En kan for eksempel:
 
-Vi har også større frihet i hvor vi kan definere funksjoner -- for eksempel inne i andre funksjoner.
+- sende dem inn som argumenter til andre funksjoner
+- returnere dem fra funksjoner
+- tilordne dem til variabler
+- lagre dem i datastrukturer
+
+Vi har også større frihet i hvor vi kan definere funksjoner — for eksempel inne i andre funksjoner.
 
 ---
-
-# Funksjoner
+class: middle
 
 Eksempel på hva man kan gjøre med funksjoner i Python
 
@@ -468,7 +502,7 @@ Eksempel på hva man kan gjøre med funksjoner i Python
 ... "hundre": n_doble(100)
 ... }
 >>> 
->>> firedoble = dobling_funksjoner["fire"] # Tilordner funksjonen til en variabel
+>>> firedoble = dobling_funksjoner["fire"] # Tilordner til en variabel
 >>> 
 >>> def kall(fn, *args):   # Tar inn en funksjon som parameter
 ...     return fn(*args)
@@ -478,8 +512,11 @@ Eksempel på hva man kan gjøre med funksjoner i Python
 ```
 
 ---
-
+class: inverse, center, middle
 # Lambda-funksjoner
+
+---
+class: middle
 
 Lambdaer er anonyme én-linjes funksjoner som består av en (valgfri) liste med parametere og ett uttrykk som evalueres og returneres.
 
@@ -508,10 +545,9 @@ Lambda:
 ```
 
 ---
+class: middle
 
-# Lambda-funksjoner
-
-Som alle andre funksjoner kan også lambaer brukes som argumenter.
+Som alle andre funksjoner kan også lambdaer brukes som argumenter.
 
 ```python
 >>> def double( num ):
@@ -528,16 +564,11 @@ Dette blir ofte mer konsist med en lambda:
 [0, 2, 4, 6, 8, 10, 12, 14, 16, 18]
 ```
 
-Akkurat dette tilfellet blir kanskje vel så pent med en list comprehension:
+.tiny[(Akkurat dette tilfellet ville kanskje vært vel så pent som en list comprehension.)]
 
-```python
->>> [num * 2 for num in range(10)]
-[0, 2, 4, 6, 8, 10, 12, 14, 16, 18]
-```
 
 ---
-
-# Lambda-funksjoner
+class: middle
 
 ### Oppgaver
 
@@ -549,10 +580,8 @@ Akkurat dette tilfellet blir kanskje vel så pent med en list comprehension:
 1. Skriv kode som bruker make_adder.
 
 ---
-
-# Lambda-funksjoner
-
-### Løsninger
+class: middle
+### Løsning
 
 Lag en funksjon som regner ut gjennomsnittet av to tall, som den får som parametre.
 
@@ -561,11 +590,19 @@ def avg(a, b):
     return (a+b)/2
 ```
 
+---
+class: middle
+### Løsning
+
 Gjør om denne til en lambda.
 
 ```python
 avg = lambda a, b: (a+b)/2
 ```
+
+---
+class: middle
+### Løsning
 
 Utvid lambda-funksjonen til å regne ut gjennomsnittet av en liste med tall.
 
@@ -574,8 +611,8 @@ avg = lambda alle_tall : sum(alle_tall) / len(alle_tall)
 ```
 
 ---
-
-# Lambda-funksjoner
+class: middle
+### Løsning
 
 Lag en funksjon make_adder(x), som returnerer en funksjon.  
   Den returnerte funksjonen skal legge til x til et tall.
@@ -587,6 +624,10 @@ Lag en funksjon make_adder(x), som returnerer en funksjon.
 ...     return fn
 ```
 
+---
+class: middle
+### Løsning
+
 Skriv kode som bruker make_adder.
 
 ```python
@@ -596,8 +637,12 @@ Skriv kode som bruker make_adder.
 ```
 
 ---
+class: inverse, middle, center
 
-# Decorators
+# Dekoratorer
+
+---
+class: middle
 
 Dekoratorer lar oss endre funksjonaliteten av eksisterende funksjoner uten å måtte gjøre endringer i selve funksjonene.
 
@@ -610,8 +655,7 @@ def funksjon():
 ```
 
 ---
-
-# Decorators
+class: middle
 
 Eksempelet på forrige slide er egentlig bare syntaktisk sukker for følgende:
 
@@ -623,11 +667,10 @@ funksjon = dekorator(funksjon)
 
 En dekorator er altså en funksjon* som tar en funksjon som argument og returnerer en ny funksjon som fungerer som proxy/wrapper for den dekorerte funksjonen.
 
-.footnote.tiny[\* klasser kan også brukes, men vi holder oss til funksjoner her for å gjøre det enklere...]
+.footnote.tiny[\* klasser kan også brukes, men vi nøyer oss med funksjoner her for å holde ting enkelt…]
 
 ---
-
-# Decorators
+class: middle
 
 En typisk dekorator ser omtrent slik ut:
 
@@ -642,8 +685,7 @@ def dekorator(fn):
 I den nye funksjonen kan vi definere funksjonalitet som skal skje før og etter den dekorerte funksjonen kalles. Eller vi kan la være å kalle den i det hele tatt. Eller vi kan endre argumentene den får inn. Eller...
 
 ---
-
-# Decorators
+class: middle
 
 ### Et enkelt eksempel 
 
@@ -668,8 +710,7 @@ slutter wrapper-funksjonen
 ```
 
 ---
-
-# Decorators
+class: middle
 
 For å dekorere funksjoner med ulikt antall argumenter bruker vi * og **.
 
@@ -700,8 +741,7 @@ fikk inn 1000000 argumenter
 ```
 
 ---
-
-# Decorators
+class: middle
 
 Det fungerer også fint å stacke dekoratorer på hverandre.
 
@@ -721,8 +761,7 @@ funksjon = dekorator1(dekorator2(funksjon))
 ```
 
 ---
-
-# Decorators
+class: middle
 
 Dekoratorene vi har skrevet til nå erstatter funksjonene våre med nye funksjoner.
 Vi har dermed endret på hvordan den dekorerte funksjonen ser ut utenfra, ved å endre navn, doc-string, etc.
@@ -747,8 +786,7 @@ None
 ```
         
 ---
-
-# Decorators
+class: middle
 
 Dette kan vi passende nok løse ved hjelp av enda en dekorator!
 
@@ -774,8 +812,7 @@ foo sin docstring
 ```
 
 ---
-
-# Decorators
+class: middle
 
 Vi kan også lage dekoratorer som tar inn parametere.
 
@@ -808,7 +845,6 @@ Her er `gjenta` egentlig en funksjon som genererer dekoratorer. `gjenta(4)` lage
 
 ---
 
-
 ### Oppgaver
 
 .left-column[
@@ -839,10 +875,8 @@ def fib(a):
 ]
 
 ---
-
-# Decorators
-
-### Løsninger
+class: middle
+### Løsning
 
 Lag en `@ignore` decorator som gjør at kall til den dekorerte funksjonen ikke lenger gjør noenting.
 
@@ -853,6 +887,10 @@ def ignore(fn):
         pass
     return wrapper
 ```
+
+---
+class: middle
+### Løsning
 
 Lag en dekorator `@timed` som tar tiden på den dekorerte funksjonen. 
 
@@ -870,10 +908,8 @@ def timed(fn):
 ```
 
 ---
-
-# Decorators
-
-### Løsninger
+class: middle
+### Løsning
 
 Lag dekoratoren `@deprecated` som skriver ut en advarsel hvis noen bruker den dekorerte funksjonern. Bonus hvis du klarer å inkludere navnet på funksjonen i advarselen.
 
@@ -885,6 +921,10 @@ def deprecated(fn):
         return fn(*args, **kwargs)
     return wrapper
 ```
+
+---
+class: middle
+### Løsning
 
 Lag dekoratoren `@memoize` som lagrer og gjenbruker delløsningene ved kall til funksjoner. Bruk så denne på `fib` til høyre, og regn ut `fib(100)`.
 
@@ -902,6 +942,7 @@ def memoize(fn):
 ```
 
 ---
+class: inverse, middle
 
 # Easter Eggs
 
@@ -933,15 +974,15 @@ import antigravity
 
 # TL;DR
 
-- *List comprehensions* er en hendig syntaks for å lage/filtrere/mutere lister.
-- *Generatorer* gir oss muligheten til å generere (uendelig) lange sekvenser uten at disse må lagres i minnet.
+- ***List comprehensions*** er en hendig syntaks for å lage/filtrere/mutere lister.
+- ***Generatorer*** gir oss muligheten til å generere (uendelig) lange sekvenser uten at disse må lagres i minnet.
   - Generator-uttrykk er en kompakt og konsis syntaks for å lage generatorer.
-- *Funksjoner* er første-klasses i Python, og kan derfor:
+- ***Funksjoner*** er første-klasses i Python, og kan derfor:
   - Brukes som argumenter og returverdier fra andre funksjoner.
   - Tilordnes variabler.
   - Lagres i datastrukturer.
-- *Lambdaer* er enlinjes funksjoner uten navn.
-- *Dekoratorer* lar oss endre funksjonalitet på eksisterende funksjoner uten å endre dem direkte.
+- ***Lambdaer*** er enlinjes funksjoner uten navn.
+- ***Dekoratorer*** lar oss endre funksjonalitet på eksisterende funksjoner uten å endre dem direkte.
   - Dekoratorene erstatter den dekorerte funksjonen med en ny funksjon.
   - I praksis bare hendig syntax for å drive med høyere ordens programmering.
 
@@ -949,8 +990,6 @@ import antigravity
 class: center, middle, inverse
 
 # Takk for oss
-
-### &#8253;
 
     </textarea>
     <script src="remark-0.5.5.min.js" type="text/javascript"></script>
