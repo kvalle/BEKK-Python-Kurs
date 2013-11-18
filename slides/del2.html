@@ -572,68 +572,96 @@ class: middle
 
 ### Oppgaver
 
-1. Lag en funksjon som regner ut gjennomsnittet av to tall, som den får som parametre.
-1. Gjør om denne til en lambda.
-1. Utvid lambda-funksjonen til å regne ut gjennomsnittet av en liste med tall.
-1. Lag en funksjon make_adder(x), som returnerer en funksjon.  
-  Den returnerte funksjonen skal legge til x til et tall.
-1. Skriv kode som bruker make_adder.
+1. Fyll inn det som mangler:
+    
+    ```python
+    oddetall = filter(____, range(100))
+    ```
+
+1. Lag funksjonen `apply_fn` som tar som parametere en funksjon `fn` og en rekke verdier. Funksjonen returnerer resultatet av å kalle `fn` med verdiene som argumenter.
+
+    ```python
+    >>> apply_fn(sum, [8, 2, 13, 4, 10, 5])
+    42
+    ```
+
+1. Lag en funksjon `make_adder`, som tar et argument `n` og returnerer en funksjon som som legger `n` til sitt argument.
+
+    ```python
+    >>> add_two = make_adder(2)
+    >>> add_two(40)
+    42
+    ```
+
+1. Lag funksjonen `compose` som tar to funksjoner som argumenter og returnerer en ny funksjon som kombinerer effekten av de to funksjonene.
 
 ---
 class: middle
 ### Løsning
 
-Lag en funksjon som regner ut gjennomsnittet av to tall, som den får som parametre.
+
+Fyll inn det som mangler
 
 ```python
-def avg(a, b):
-    return (a+b)/2
+oddetall = filter(lambda x: x%2==1, range(100))
 ```
 
 ---
 class: middle
 ### Løsning
 
-Gjør om denne til en lambda.
+Lag funksjonen `apply_fn` som tar som parametere en funksjon `fn` og en rekke verdier. Funksjonen returnerer resultatet av å kalle `fn` med verdiene som argumenter.
 
 ```python
-avg = lambda a, b: (a+b)/2
+def apply_fn(fn, *args):
+    return fn(*args)
+```
+
+```python
+>>> apply_fn(sum, [8, 2, 13, 4, 10, 5])
+42
 ```
 
 ---
 class: middle
 ### Løsning
 
-Utvid lambda-funksjonen til å regne ut gjennomsnittet av en liste med tall.
-
-```python
-avg = lambda alle_tall : sum(alle_tall) / len(alle_tall)
-```
-
----
-class: middle
-### Løsning
-
-Lag en funksjon make_adder(x), som returnerer en funksjon.  
-  Den returnerte funksjonen skal legge til x til et tall.
+Lag en funksjon `make_adder`, som tar et parameter `n` og returnerer en funksjon som som legger `n` til sitt parameter.
 
 ```python
 >>> def make_adder(x):
-...     def fn(y):
-...             return y+x
-...     return fn
+...     return lambda y: x + y
 ```
-
----
-class: middle
-### Løsning
-
-Skriv kode som bruker make_adder.
 
 ```python
 >>> add_two = make_adder(2)
 >>> add_two(40)
 42
+```
+
+---
+class: middle
+### Løsning
+
+Lag funksjonen `compose` som tar to funksjoner som argumenter og returnerer en ny funksjon som kombinerer effekten av de to funksjonene.
+
+```python
+def compose(f, g):
+    return lambda(x): f(g(x))
+```
+
+Eksempel:
+
+```python
+>>> def greet(x): 
+...     return "hello " + x
+... 
+>>> def loud(x): 
+...     return x + "!"
+... 
+>>> greet_loud = compose(greet, loud)
+>>> greet_loud("world")
+'hello world!'
 ```
 
 ---
