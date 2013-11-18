@@ -770,7 +770,7 @@ Vi har dermed endret på hvordan den dekorerte funksjonen ser ut utenfra, ved å
 ```python
 >>> def buu_dekorator(fn):
 ...     def ny_fn(*args, **kwargs):
-...         # noe artig her
+...         # gjør noe artig/nyttig her
 ...         return fn(*args, **kwargs)
 ...     return ny_fn
 ... 
@@ -796,7 +796,7 @@ Dette kan vi passende nok løse ved hjelp av enda en dekorator!
 >>> def yay_dekorator(fn):
 ...     @wraps(fn)
 ...     def ny_fn(*args, **kwargs):
-...         # noe artig her
+...         # gjør noe artig/nyttig her
 ...         return fn(*args, **kwargs)
 ...     return ny_fn
 ... 
@@ -852,7 +852,7 @@ Her er `gjenta` egentlig en funksjon som genererer dekoratorer. `gjenta(4)` lage
 1. Lag en `@ignore` decorator som gjør at kall til den dekorerte funksjonen ikke lenger gjør noenting.
 1. Lag en dekorator `@timed` som tar tiden på den dekorerte funksjonen. 
 1. Lag dekoratoren `@deprecated` som skriver ut en advarsel hvis noen bruker den dekorerte funksjonen. Bonus hvis du klarer å inkludere navnet på funksjonen i advarselen.
-1. Lag dekoratoren `@memoize` som lagrer og gjenbruker delløsningene ved kall til funksjoner. Bruk så denne på `fib` til høyre, og regn ut `fib(100)`.
+1. Lag dekoratoren `@memoize` som lagrer og gjenbruker delløsningene ved kall til funksjoner. Bruk så denne på `fib` som vist til høyre, og regn ut `fib(100)`.
 
 ]
 
@@ -939,6 +939,11 @@ def memoize(fn):
             cache[arg] = fn(arg)
             return cache[arg]
     return wrapper
+```
+
+```python
+>>> fib(100)
+354224848179261915075L
 ```
 
 ---
