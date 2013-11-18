@@ -118,3 +118,7 @@
   .tiny {
     font-size: .8em;
   }
+
+  li {
+    margin-top: .2em;
+  }
