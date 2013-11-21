@@ -731,6 +731,13 @@ def dekorator(fn):
 
 I den nye funksjonen kan vi definere funksjonalitet som skal skje før og etter den dekorerte funksjonen kalles. Eller vi kan la være å kalle den i det hele tatt. Eller vi kan endre argumentene den får inn. Eller...
 
+???
+
+Implementasjon av dekorator
+
+- tar inn opprinnelig (dekorert) funksjon
+- returnere ny funksjon
+
 ---
 class: middle
 
@@ -853,6 +860,16 @@ foo
 foo sin docstring
 ```
 
+???
+
+Heldigvis er det noen som har laget en dekorator som løser dette problemet.
+
+Bruker functools.wraps til å wrappe funksjonen vi returnerer fra dekoratoren.
+
+...
+
+Men det er en ting som er litt merkelig med `wraps` dekoratoren. Den tar et argument!
+
 ---
 class: middle
 
@@ -866,6 +883,13 @@ Vi kan også lage dekoratorer som tar inn parametere.
 ...         return wrapper
 ...     return decorator
 ```
+
+???
+
+Lager en funksjon som tar inn argument(er).
+
+Denne funksjonen returnerer en dekorator som er definert på samme måte som vi har sett så langt.
+
 
 ---
 class: middle
@@ -973,7 +997,7 @@ def deprecated(fn):
 class: middle
 ### Løsning
 
-Lag dekoratoren `@memoize` som lagrer og gjenbruker delløsningene ved kall til funksjoner. Bruk så denne på `fib` til høyre, og regn ut `fib(100)`.
+Lag dekoratoren `@memoize` som lagrer og gjenbruker delløsningene ved kall til funksjoner. Bruk så denne på `fib` og regn ut `fib(100)`.
 
 ```python
 def memoize(fn):
