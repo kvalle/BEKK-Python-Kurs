@@ -1,124 +1,112 @@
 <!DOCTYPE html>
 <html>
   <head>
-    <title>Python-kurs, NTNU, 2012</title>
-    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
-
-    <script src="https://github.com/downloads/gnab/remark/remark-0.3.1.min.js" type="text/javascript">
-      { "highlightStyle": "solarized_light" }
-    </script>
-    <script src="../lib/jquery-1.7.1.js" type="text/javascript"></script>
-    <script src="../lib/bekk.js" type="text/javascript"></script>
-
-    <link href='http://fonts.googleapis.com/css?family=Inconsolata' rel='stylesheet' type='text/css'>
-
-    <link rel="stylesheet/less" type="text/css" href="../lib/bekk.less">
-    <script src="http://lesscss.googlecode.com/files/less-1.1.5.min.js" type="text/javascript"></script>
+    <meta http-equiv="content-type" content="text/html; charset=utf-8" />
+    <title>Idiomatisk Python?</title>
+    <link rel="stylesheet" href="style.css"/>
   </head>
   <body>
     <textarea id="source">
 
-.front-page
+class: center, middle, inverse
 
-# Python-kurs
+# Idiomatisk python
 
-## Del 2: Idiomatisk python
-
-Forelesning ved NTNU
-
-Magnus Haug / Kjetil Valle / Stian Fredrikstad
-
-14/03/2012
+Magnus Haug / Kjetil Valle
 
 ---
+class: inverse, middle, right
 
-.agenda
+## Agenda
 
-# Agenda
+List comprehension  
+Iteratorer og generatorer  
+Generator expressions  
 
-* List comprehension
-* Generatorer og iteratorer
-* Generator expressions
-* -- Pause --
-* Funksjoner
-* Lambda-funksjoner
-* Decorators
+*Pause*  
+
+Funksjoner  
+Lambda-funksjoner  
+Dekoratorer
 
 ---
+class: center, middle, inverse
 
-# List comprehension
+# List comprehensions
 
-List comprehensions er en konsis syntaks for å lage eller transformere lister.
+---
+class: middle
+
+Konsis syntaks for å lage eller transformere lister.
 Lar deg enkelt *iterere* over lister og *transformere* og *filtrere* elementene.
 
-Syntaks:
+&nbsp; 
 
-    .python
-    resultat = [output for var in list if condition]
+```python
+resultat = [output for var in list if condition]
+```
+
+???
     
 - `output` er elementene som ender opp i den endelige lista. Her kan vi skrive ut `var` direkte, eller som del av et utrykk.
 - `list` er referanse til en sekvens, og iterering fungerer på samme måte her som i vanlige for-løkker.
 - `if condition` kan filtrere bort elementer vi ikke ønsker å få med i resultatet. Dette siste leddet er valgfritt.
 
 ---
+class: middle
 
-# List comprehension
+Et enkelt eksempel
 
-### Et enkelt eksempel
+```python
+>>> resultat = []
+>>> for i in range(10):
+...     if i%3 == 0:
+...         resultat.append(-i)
+... 
+>>> print resultat
+[0, -3, -6, -9]
+```
+
+.center[↓]
+
+```python
+>>> [-i for i in range(10) if i%3 == 0]
+[0, -3, -6, -9]
+```
+
+???
 
 Iterér over alle tall fra 0 til 10, filtrer slik at vi sitter igjen bare med de som er delelig på 3, og gang hvert element med -1 før de lagres i en ny liste.
 
-    .python
-    >>> resultat = []
-    >>> for i in range(10):
-    ...     if i%3 == 0:
-    ...         resultat.append(-i)
-    ... 
-    >>> print resultat
-    [0, -3, -6, -9]
+---
+class: middle
 
-Med list comprehension kan vi i stedet skrive dette som:
+List comprehension med flere variable
 
-    .python
-    >>> [-i for i in range(10) if i%3 == 0]
-    [0, -3, -6, -9]
-    
-Hva skjer her? Vi itererer `for i in range(10)`, filtrerer `if i%3 == 0`, og transfomerer de resterende elementene til `-i`.
+```python
+>>> bokstaver = ['x','y','x']
+>>> [a+b+c for a in bokstaver for b in bokstaver for c in bokstaver] 
+['xxx', 'xxy', 'xxx', 'xyx', 'xyy', 'xyx', 'xxx', 'xxy', 'xxx', 'yxx', 
+'yxy', 'yxx', 'yyx', 'yyy', 'yyx', 'yxx', 'yxy', 'yxx', 'xxx', 'xxy', 
+'xxx', 'xyx', 'xyy', 'xyx', 'xxx', 'xxy', 'xxx']
+```
 
 ---
-
-# List comprehension
-
-List comprehensions kan også gjøres med nestede løkker:
-
-Eksempel med 3 nivåer:
-
-    .python
-    >>> bokstaver = ['x','y','x']
-    >>> [a+b+c for a in bokstaver for b in bokstaver for c in bokstaver] 
-    ['xxx', 'xxy', 'xxx', 'xyx', 'xyy', 'xyx', 'xxx', 'xxy', 'xxx', 'yxx', 'yxy', 'yxx', 'yyx', 'yyy', 
-    'yyx', 'yxx', 'yxy', 'yxx', 'xxx', 'xxy', 'xxx', 'xyx', 'xyy', 'xyx', 'xxx', 'xxy', 'xxx']
-
-
-
----
-
-# List comprehension
+class: middle
 
 Fra Python 2.7 finnes det også tilsvarende syntax for å lage set og dictionaries:
 
-    .python
-    >>> [n%3 for n in range(5)]
-    [0, 1, 2, 0, 1]
-    >>> {n%3 for n in range(5)}
-    set([0, 1, 2])
-    >>> {n: n%3 for n in range(5)}
-    {0: 0, 1: 1, 2: 2, 3: 0, 4: 1}
-
+```python
+>>> [n % 3 for n in range(5)]
+[0, 1, 2, 0, 1]
+>>> {n % 3 for n in range(5)}
+set([0, 1, 2])
+>>> {n: n % 3 for n in range(5)}
+{0: 0, 1: 1, 2: 2, 3: 0, 4: 1}
+```
 
 ---
-
-# List comprehension
+class: middle
 
 ### Oppgaver
 
@@ -131,230 +119,260 @@ Gjør følgende ved hjelp av list comprehensions:
 1. Generer gangetabellen for tallene fra 1 til 10 som en 2-dimensjonal liste.
 
 ---
+class: middle
 
-# List comprehension
-
-### Løsninger
+### Løsning
 
 Lag en liste med 2er-potenser. Hint: `2 ** i` gir *2*<sup>*i*</sup>.
 
-    .python
-    >>> [2**i for i in range(1,10)]
-    [2, 4, 8, 16, 32, 64, 128, 256, 512]
+```python
+>>> [2**i for i in range(1,10)]
+[2, 4, 8, 16, 32, 64, 128, 256, 512]
+```
+
+---
+class: middle
+
+### Løsning
 
 Lag dictionary over de samme potensene der nøkkel er `i` og verdi er `2**i`.
 
-    .python
-    >>> {i: 2**i for i in range(1,10)}
-    {1: 2, 2: 4, 3: 8, 4: 16, 5: 32, 6: 64, 7: 128, 8: 256, 9: 512}
-        
-Lag en liste med alle tall mellom 1 og 100 som er delelig på enten 3 eller 7 men ikke begge.
-
-    .python
-    >>> [x for x in range(1,100) if x%3==0 or x%7==0 if not x%3==x%7==0]
-    [3, 6, 7, 9, 12, 14, 15, 18, 24, 27, 28, 30, 33, 35, 36, 39, 45, 48, 49, 51, 54, 56, 57, 60, 66, 
-     69, 70, 72, 75, 77, 78, 81, 87, 90, 91, 93, 96, 98, 99]
-
+```python
+>>> {i: 2**i for i in range(1,10)}
+{1: 2, 2: 4, 3: 8, 4: 16, 5: 32, 6: 64, 7: 128, 8: 256, 9: 512}
+```
 
 ---
+class: middle
 
-# List comprehension
+### Løsning
 
-### Løsninger
+Lag en liste med alle tall mellom 1 og 100 som er delelig på enten 3 eller 7 men ikke begge.
 
+```python
+>>> [x for x in range(1,100) if x%3==0 or x%7==0 if not x%3==x%7==0]
+[3, 6, 7, 9, 12, 14, 15, 18, 24, 27, 28, 30, 33, 35, 36, 39, 45, 48, 49, 
+51, 54, 56, 57, 60, 66,  69, 70, 72, 75, 77, 78, 81, 87, 90, 91, 93, 96, 
+98, 99]
+```
+
+---
+class: middle
+
+### Løsning
         
 Lag liste med alle oddetall som er multiplikat av et tall fra 3 til 7 og et tall fra 10 til 14.
 
-    .python
-    >>> [i*j for i in range(3,8) for j in range(10,15) if i*j%2 != 0]
-    [33, 39, 55, 65, 77, 91]
-        
-Generer gangetabellen for tallene fra 1 til 10 som en 2-dimensjonal liste.
-
-    .python
-    >>> from pprint import pprint
-    >>> tabell = [[i*j for i in range(1,11)] for j in range(1,11)]
-    >>> pprint(tabell)
-    [[1, 2, 3, 4, 5, 6, 7, 8, 9, 10],
-     [2, 4, 6, 8, 10, 12, 14, 16, 18, 20],
-     [3, 6, 9, 12, 15, 18, 21, 24, 27, 30],
-     [4, 8, 12, 16, 20, 24, 28, 32, 36, 40],
-     [5, 10, 15, 20, 25, 30, 35, 40, 45, 50],
-     [6, 12, 18, 24, 30, 36, 42, 48, 54, 60],
-     [7, 14, 21, 28, 35, 42, 49, 56, 63, 70],
-     [8, 16, 24, 32, 40, 48, 56, 64, 72, 80],
-     [9, 18, 27, 36, 45, 54, 63, 72, 81, 90],
-     [10, 20, 30, 40, 50, 60, 70, 80, 90, 100]]
-
+```python
+>>> [i*j for i in range(3,8) for j in range(10,15) if i*j%2 != 0]
+[33, 39, 55, 65, 77, 91]
+```
 
 ---
+class: middle
 
-# Generatorer og iteratorer
+### Løsning
+
+Generer gangetabellen for tallene fra 1 til 10 som en 2-dimensjonal liste.
+
+```python
+>>> from pprint import pprint
+>>> tabell = [[i*j for i in range(1,11)] for j in range(1,11)]
+>>> pprint(tabell)
+[[ 1,  2,  3,  4,  5,  6,  7,  8,  9,  10],
+ [ 2,  4,  6,  8, 10, 12, 14, 16, 18,  20],
+ [ 3,  6,  9, 12, 15, 18, 21, 24, 27,  30],
+ [ 4,  8, 12, 16, 20, 24, 28, 32, 36,  40],
+ [ 5, 10, 15, 20, 25, 30, 35, 40, 45,  50],
+ [ 6, 12, 18, 24, 30, 36, 42, 48, 54,  60],
+ [ 7, 14, 21, 28, 35, 42, 49, 56, 63,  70],
+ [ 8, 16, 24, 32, 40, 48, 56, 64, 72,  80],
+ [ 9, 18, 27, 36, 45, 54, 63, 72, 81,  90],
+ [10, 20, 30, 40, 50, 60, 70, 80, 90, 100]]
+```
+
+---
+class: inverse, middle, center
+
+# Iteratorer og generatorer
+
+---
+class: middle
+
+```python
+>>> items = [1, 4, 5]
+>>> it = iter(items)
+>>> it.next()
+1
+>>> it.next()
+4
+>>> it.next()
+5
+>>> it.next()
+Traceback (most recent call last):
+  File "<stdin>", line 1, in <module>
+StopIteration
+```
+
+???
 
 Iteratorer er kanskje ikke veldig spennende, men det er en viktig byggesten.
 Flere av de python-elementene vi allerede kjenner kan fungere som iteratorer..
 F.eks. lister:
 
-    .python
-    >>> items = [1, 4, 5]
-    >>> it = iter(items)
-    >>> it.next()
-    1
-    >>> it.next()
-    4
-    >>> it.next()
-    5
-    >>> it.next()
-    Traceback (most recent call last):
-      File "<stdin>", line 1, in <module>
-    StopIteration
-    >>>
-
 ---
-
-# Generatorer og iteratorer
+class: middle
 
 Syntaktisk sukker
 
-    .python
-    >>> items = [1, 4, 5]
-    >>> for i in items:
-    ...     print i,
-    ...
-    1 4 5
+```python
+>>> items = [1, 4, 5]
+>>> for i in items:
+...     print i,
+... 
+1 4 5
+```
 
 ---
-
-# Generatorer og iteratorer
+class: middle
 
 La oss implementere en iterator selv:
 
-    .python
-    class countdown(object):
-        def __init__(self,start):
-            self.count = start
-        def __iter__(self):
-            return self
-        def next(self):
-            if self.count <= 0:
-                raise StopIteration
-            r = self.count
-            self.count -= 1
-            return r
+```python
+class Countdown:
+    def __init__(self,start):
+        self.count = start
+    def __iter__(self):
+        return self
+    def next(self):
+        if self.count <= 0:
+            raise StopIteration
+        r = self.count
+        self.count -= 1
+        return r
+```
 
 Og bruke den:
 
-    .python
-    >>> c = countdown(5)
-    >>> for i in c:
-    ...     print i,
-    ...
-    5 4 3 2 1
+```python
+>>> for i in Countdown(5):
+...     print i,
+... 
+5 4 3 2 1
+```
 
 ---
-
-# Generatorer og iteratorer
+class: middle
 
 Dette var mye styr, kan det gjøres enklere? Yep, med generatorer:
 
-    .python
-    def countdown(i):
-        while i > 0:
-            yield i
-            i -= 1
+```python
+def countdown(i):
+    while i > 0:
+        yield i
+        i -= 1
+```
 
 Resultat:
 
-    .python
-    >>> for i in countdown(5):
-    ...     print i,
-    ...
-    5 4 3 2 1
+```python
+>>> for i in countdown(5):
+...     print i,
+... 
+5 4 3 2 1
+```
 
 ---
+class: middle
 
-# Generatorer og iteratorer
+Hva er nytteverdien? Uendelige lister, store datamengder:
 
-### Hva er nytteverdien?
+```python
+>>> from itertools import count
+>>> c = count()
+>>> c.next()
+0
+>>> c.next()
+1
+>>> c.next()
+2
+```
 
-Uendelige lister, store datamengder:
+???
 
-    .python
-    >>> from itertools import count
-    >>> c = count()
-    >>> c.next()
-    0
-    >>> c.next()
-    1
-    >>> c.next()
-    2
-
-Spørsmål: Hvordan holder man en uendelig liste i minne?!
+*Spørsmål: Hvordan holder man en uendelig liste i minne?!*
 
 ---
+class: middle, inverse, center
 
 # Generator expressions
 
-List comprehensions kan automagisk skrives som en generator:
+---
+class: middle
 
-    .python
-    >>> liste = [i for i in range(10)]
-    >>> print liste
-    [0, 1, 2, 3, 4, 5, 6, 7, 8, 9]
-    >>> for i in liste:
-    ...   print i,
-    ... 
-    0 1 2 3 4 5 6 7 8 9
-    >>> for i in liste:
-    ...   print i,
-    ... 
-    0 1 2 3 4 5 6 7 8 9
+Et list comprehension kan automagisk skrives som en generator:
+
+```python
+>>> liste = [i for i in range(10)]
+>>> print liste
+[0, 1, 2, 3, 4, 5, 6, 7, 8, 9]
+>>> 
+>>> for i in liste:
+...   print i,
+... 
+0 1 2 3 4 5 6 7 8 9
+>>> for i in liste:
+...   print i,
+... 
+0 1 2 3 4 5 6 7 8 9
+```
 
 &nbsp;
 
-    .python
-    >>> generator = (i for i in range(10))
-    >>> print generator
-    <generator object <genexpr> at 0x10ff3e410>
-    >>> for i in generator:
-    ...   print i,
-    ... 
-    0 1 2 3 4 5 6 7 8 9
-    >>> for i in generator:
-    ...   print i,
-    ... 
-
-Hva skjedde her?
-
----
-
-# Generator expressions
-
-### Fordeler
-
-- Er mer kompakte (men kan være mindre fleksible) enn vanlige generatorer med yield.
-- Er mer minnevennlige enn lister.
-  - Uendelig lange lister passer dårlig i minnet...
-- Som skapt for input til metoder som arbeider på elementer enkeltvis. (Da kan vi også droppe et sett parenteser.)
-
-        .python
-        sum(x for x in range(100000) if x%2 == 0)
-
-### Ulemper
-
-- Kan ikke itereres over flere ganger.
-- Kan ikke bruke indeksering/slicing eller de vanlige liste-metodene (`append`, `insert`, `count`, `sort`, etc).
+```python
+>>> generator = (i for i in range(10))
+>>> print generator
+<generator object <genexpr> at 0x10ff3e410>
+>>> 
+>>> for i in generator:
+...   print i,
+... 
+0 1 2 3 4 5 6 7 8 9
+>>> for i in generator:
+...   print i,
+... 
+>>> # ingenting printes
+```
 
 ---
+class: middle
 
-# Generator expressions
+### Generatorer
+
+- Raskt
+- Bruker mindre minne
+- Kan representere uendelige lister
+
+### Iteratorer
+
+- Kan tilbys som del av API-et til din datastruktur
+
+### Lister
+
+- Kan itereres over flere ganger
+- Støtter `append`, `insert`, `len`, `sort`, etc.
+- Kan aksesseres ved hjelp av indeks/slicing
+
+
+---
+class: middle
 
 ### Oppgaver:
 
 1. Lag en list comprehension som lister opp alle partall under 20, og print dem
 1. Lag et generator expression som gjør det samme. Print dem.
-1. Lag en generator som lister opp ALLE partall.
-1. Lag et generator expression som lister opp ALLE partall.
+1. Lag en generator som lister opp ALLE positive partall.
+1. Lag et generator expression som lister opp ALLE positive partall.
 1. Print de første 20 av dem, f.eks. slik:  
     `print [alle_partall.next() for i in xrange(20)]`
 1. Lag en generator som generer tall-sekvensen 1, -1, 2, -2, 3, -3, ...
@@ -362,564 +380,709 @@ Hva skjedde her?
    Bruk denne til å finne det 100 000'ende fibonacci-tallet.
 
 ---
-
-### Løsninger:
+class: middle
+### Løsning
 
 Lag en list comprehension som lister opp alle partall under 20, og print dem
 
-    .python
-    >>> partall = [i for i in xrange(20) if i%2==0]
-    >>> for i in partall:
-    ...   print i, 
-    ... 
-    0 2 4 6 8 10 12 14 16 18
+```python
+>>> partall = [i for i in xrange(20) if i%2==0]
+>>> for i in partall:
+...   print i, 
+... 
+0 2 4 6 8 10 12 14 16 18
+```
+
+---
+class: middle
+### Løsning
 
 Lag et generator expression som gjør det samme. Print dem.
 
-    .python
-    >>> partall = (i for i in xrange(20) if i%2==0)
-    >>> for i in partall:
-    ...   print i, 
-    ... 
-    0 2 4 6 8 10 12 14 16 18
-
-Lag en generator som lister opp ALLE partall.
-
-    .python
-    >>> def allepartall():
-    ...     i = 0
-    ...     while True:
-    ...             if i%2 == 0:
-    ...                     yield i
-    ...             i += 1
+```python
+>>> partall = (i for i in xrange(20) if i%2==0)
+>>> for i in partall:
+...   print i, 
+... 
+0 2 4 6 8 10 12 14 16 18
+```
 
 ---
+class: middle
+### Løsning
 
-Lag et generator expression som lister opp ALLE partall.
+Lag en generator som lister opp ALLE positive partall.
+
+```python
+>>> def alle_partall():
+...     i = 0
+...     while True:
+...         if i%2 == 0:
+...             yield i
+...         i += 1
+```
+
+---
+class: middle
+### Løsning
+
+Lag et generator expression som lister opp ALLE positive partall.
 	
-    .python
-    >>> from itertools import count
-    >>> allepartall = (i for i in count() if i%2 == 0)
+```python
+>>> from itertools import count
+>>> alle_partall = (i for i in count() if i%2 == 0)
+```
+
+---
+class: middle
+### Løsning
 
 Lag en generator som generer tall-sekvensen 1, -1, 2, -2, 3, -3, ...
 
-    .python
-    >>> def plusminus():
-    ...     i = 1
-    ...     while True:
-    ...             yield i
-    ...             yield -i
-    ...             i += 1
+```python
+>>> def plusminus():
+...     i = 1
+...     while True:
+...         yield i
+...         yield -i
+...         i += 1
+```
+
+---
+class: middle
+### Løsning
 
 Lag en generator som genererer fibonacci-tallene.  
 Bruk denne til å finne det 100 000'ende fibonacci-tallet.
 
-    .python
-    >>> def fib():
-    ...     a, b = 1, 1
-    ...     yield a
-    ...     while True:
-    ...             yield a
-    ...             a, b = a+b, a
-    >>> a = fib()
-    >>> for i in xrange(100000):
-    ...     result  = a.next()
+```python
+>>> def fib():
+...     a, b = 1, 1
+...     yield a
+...     while True:
+...             yield a
+...             a, b = a+b, a
+>>> a = fib()
+>>> for i in xrange(100000):
+...     result  = a.next()
+... 
+>>> result
+# result har for mange siffer til vises her, prøv selv
+```
 
 ---
+class: inverse, middle, center
 
-.middle.center
-
-# Pause!
+## *Pause!*
 
 ---
+class: inverse, middle, center
 
 # Funksjoner
 
-Funksjoner i python er *førsteklasses*, og vi kan derfor gjøre mer med dem enn vi er vant med fra Java.
-At funksjonene er førsteklasses vil si at vi kan...
+---
+class: middle
 
-1. sende dem inn som argumenter til andre funksjoner
-1. returnere dem fra funksjoner
-1. tilordne dem til variabler
-1. lagre dem i datastrukturer
+### Førsteklasses funksjoner
 
-Vi har også større frihet i hvor vi kan definere funksjoner -- for eksempel inne i andre funksjoner.
+- Kan sendes inn som argumenter til andre funksjoner
+- Kan returneres fra funksjoner
+- Kan tilordnes til variabler
+- Kan lagres i datastrukturer
+- Kan defineres inne i andre funksjoner
 
 ---
+class: middle
 
-# Funksjoner
+```python
+>>> def n_doble(n): 
+...     # Definerer funksjon inne i en annen funksjon
+...     def fn(a):         
+...         return n*a
+... 
+...     # Returnerer en funksjon
+...     return fn          
+... 
+>>> # Lagrer funksjoner i en dictionary
+>>> funksjoner = {
+...     "to": n_doble(2),      
+...     "tre": n_doble(3),
+...     "fire": n_doble(4),
+...     "hundre": n_doble(100)
+... }
+>>> 
+>>> # Tilordner til en variabel
+>>> firedoble = funksjoner["fire"] 
+>>> 
+>>> # Tar inn en funksjon som parameter
+>>> def kall(fn, *args):   
+...     return fn(*args)
+... 
+>>> # Sender funksjon som argument
+>>> kall(firedoble, 3)     
+12
+```
 
-Eksempel på hva man kan gjøre med funksjoner i Python
+???
 
-    .python
-    >>> def n_doble(n): 
-    ...     def fn(a):         # Definerer funksjon inne i en annen funksjon
-    ...         return n*a
-    ...     return fn          # Returnerer en funksjon
-    ... 
-    >>> dobling_funksjoner = {
-    ... "to": n_doble(2),      # Lagrer funksjoner i en dictionary
-    ... "tre": n_doble(3),
-    ... "fire": n_doble(4),
-    ... "hundre": n_doble(100)
-    ... }
-    >>> 
-    >>> firedoble = dobling_funksjoner["fire"] # Tilordner funksjonen til en variabel
-    >>> 
-    >>> def kall(fn, *args):   # Tar inn en funksjon som parameter
-    ...     return fn(*args)
-    ... 
-    >>> kall(firedoble, 3)     # Sender funksjon som argument
-    12
+Her bruker vi *-notasjon. Kjenner publikum til den?
 
 ---
-
+class: inverse, center, middle
 # Lambda-funksjoner
 
-Lambdaer er anonyme én-linjes funksjoner som består av en (valgfri) liste med parametere og ett uttrykk som evalueres og returneres.
+---
+class: middle
 
-Syntax: 
+```python
+>>> def vanlig_funksjon(a, b):
+...     return a + 2 * b
+... 
+>>> vanlig_funksjon(3, 2)
+7
+```
 
-    .python
-    lambda args: uttrykk
+.center[↓]
 
-Vanlig funksjon:
-
-    .python
-    >>> def funksjonen_min(num):
-    ...     return num * 2
-    ...
-    >>> funksjonen_min(3)
-    6
-
-Lambda:
-
-    .python
-    >>> lambdaen_min = lambda num: num * 2
-    >>> lambdaen_min(3)
-    6
+```python
+>>> lambda_funksjon = lambda a, b: a + 2 * b
+>>> lambda_funksjon(3, 2)
+7
+```
 
 ---
+class: middle
 
-# Lambda-funksjoner
+```python
+>>> def double(num):
+...     return num * 2
+... 
+>>> map(double, range(10))
+[0, 2, 4, 6, 8, 10, 12, 14, 16, 18]
+```
 
-Som alle andre funksjoner kan også lambaer brukes som argumenter.
+.center[↓]
 
-    .python
-    >>> def double( num ):
-    ...     return num * 2
-    ... 
-    >>> map(double, range(10))
-    [0, 2, 4, 6, 8, 10, 12, 14, 16, 18]
+```python
+>>> map(lambda num : num * 2, range(10))
+[0, 2, 4, 6, 8, 10, 12, 14, 16, 18]
+```
 
-Dette blir ofte mer konsist med en lambda:
 
-    .python
-    >>> map(lambda num : num * 2, range(10))
-    [0, 2, 4, 6, 8, 10, 12, 14, 16, 18]
+???
 
-Akkurat dette tilfellet blir kanskje vel så pent med en list comprehension:
+Lambdaer trenger ikke tilordnes variabler, men kan brukes direkte der de trengs.
 
-    .python
-    >>> [num * 2 for num in range(10)]
-    [0, 2, 4, 6, 8, 10, 12, 14, 16, 18]
+.tiny[(Akkurat dette tilfellet ville kanskje vært vel så pent med en list comprehension.)]
 
 ---
-
-# Lambda-funksjoner
+class: middle
 
 ### Oppgaver
 
-1. Lag en funksjon som regner ut gjennomsnittet av to tall, som den får som parametre.
-1. Gjør om denne til en lambda.
-1. Utvid lambda-funksjonen til å regne ut gjennomsnittet av en liste med tall.
-1. Lag en funksjon make_adder(x), som returnerer en funksjon.  
-  Den returnerte funksjonen skal legge til x til et tall.
-1. Skriv kode som bruker make_adder.
+1. Fyll inn det som mangler:
+    
+    ```python
+    oddetall = filter(____, range(100))
+    ```
 
----
+1. Lag funksjonen `apply_fn` som tar som parametere en funksjon `fn` og en rekke verdier. Funksjonen returnerer resultatet av å kalle `fn` med verdiene som argumenter.
 
-# Lambda-funksjoner
+    ```python
+    >>> apply_fn(sum, [8, 2, 13, 4, 10, 5])
+    42
+    ```
 
-### Løsninger
+1. Lag en funksjon `make_adder`, som tar et argument `n` og returnerer en funksjon som som legger `n` til sitt argument.
 
-Lag en funksjon som regner ut gjennomsnittet av to tall, som den får som parametre.
-
-    .python
-    def avg(a, b):
-        return (a+b)/2
-
-Gjør om denne til en lambda.
-
-    .python
-    avg = lambda a, b: (a+b)/2
-
-Utvid lambda-funksjonen til å regne ut gjennomsnittet av en liste med tall.
-
-    .python
-    avg = lambda alle_tall : sum(alle_tall) / len(alle_tall)
-
----
-
-# Lambda-funksjoner
-
-Lag en funksjon make_adder(x), som returnerer en funksjon.  
-  Den returnerte funksjonen skal legge til x til et tall.
-
-    .python
-    >>> def make_adder(x):
-    ...     def fn(y):
-    ...             return y+x
-    ...     return fn
-
-Skriv kode som bruker make_adder.
-
-    .python
+    ```python
     >>> add_two = make_adder(2)
     >>> add_two(40)
     42
+    ```
+
+1. Lag funksjonen `compose` som tar to funksjoner `f` og `g` som argumenter. `compose` returnerer en ny funksjon som kaller `g` med argumentene den mottar, og deretter kaller `f` med resultatet av dette.
+
+???
+
+Husk å forklare `filter` hvis publikum ikke kjenner denne.
 
 ---
+class: middle
+### Løsning
 
-# Decorators
+
+Fyll inn det som mangler
+
+```python
+oddetall = filter(lambda x: x % 2 == 1, range(100))
+```
+
+---
+class: middle
+### Løsning
+
+Lag funksjonen `apply_fn` som tar som parametere en funksjon `fn` og en rekke verdier. Funksjonen returnerer resultatet av å kalle `fn` med verdiene som argumenter.
+
+```python
+def apply_fn(fn, *args):
+    return fn(*args)
+```
+
+```python
+>>> apply_fn(sum, [8, 2, 13, 4, 10, 5])
+42
+```
+
+---
+class: middle
+### Løsning
+
+Lag en funksjon `make_adder`, som tar et parameter `n` og returnerer en funksjon som som legger `n` til sitt parameter.
+
+```python
+>>> def make_adder(x):
+...     return lambda y: x + y
+```
+
+```python
+>>> add_two = make_adder(2)
+>>> add_two(40)
+42
+```
+
+---
+class: middle
+### Løsning
+
+Lag funksjonen `compose` som tar to funksjoner `f` og `g` som argumenter. `compose` returnerer en ny funksjon som kaller `g` med argumentene den mottar, og deretter kaller `f` med resultatet av dette.
+
+```python
+def compose(f, g):
+    def inner(*args):
+        return f(g(*args))
+    return inner
+```
+
+Eksempel:
+
+```python
+>>> def greet(x): 
+...     return "hello " + x
+... 
+>>> def loud(x): 
+...     return x + "!"
+... 
+>>> greet_loud = compose(greet, loud)
+>>> greet_loud("world")
+'hello world!'
+```
+
+---
+class: inverse, middle, center
+
+# Dekoratorer
+
+---
+class: middle
 
 Dekoratorer lar oss endre funksjonaliteten av eksisterende funksjoner uten å måtte gjøre endringer i selve funksjonene.
 
-Syntaksen likner veldig på annotasjoner i Java:
+```python
+@dekorator
+def funksjon():
+    return "foo"
+```
 
-    .python
-    @dekorator
-    def funksjon():
-        return "foo"
+&nbsp;  
+&nbsp;  
+&nbsp;  
+&nbsp;  
+&nbsp;  
 
 ---
+class: middle
 
-# Decorators
+Dekoratorer lar oss endre funksjonaliteten av eksisterende funksjoner uten å måtte gjøre endringer i selve funksjonene.
 
-Eksempelet på forrige slide er egentlig bare syntaktisk sukker for følgende:
+```python
+@dekorator
+def funksjon():
+    return "foo"
+```
 
-    .python
-    def funksjon():
-        return "foo"
-    funksjon = dekorator(funksjon)
-    
+.center[↓]
+
+```python
+def funksjon():
+    return "foo"
+funksjon = dekorator(funksjon)
+```
+
+???
+
 En dekorator er altså en funksjon* som tar en funksjon som argument og returnerer en ny funksjon som fungerer som proxy/wrapper for den dekorerte funksjonen.
 
-\* klasser kan også brukes, men vi holder oss til funksjoner her for å gjøre det enklere...
+.footnote.tiny[\* klasser kan også brukes, men vi nøyer oss med funksjoner her for å holde ting enkelt…]
 
 ---
-
-# Decorators
+class: middle
 
 En typisk dekorator ser omtrent slik ut:
 
-    .python
-    def dekorator(fn):
-        def ny_fn():
-            # Her kan vi gjøre hva vi vil!
-            # Vanligvis inkluderer det et kall til fn().
-        return ny_fn
+```python
+def dekorator(fn):
+    def ny_fn():
+        # Her kan vi gjøre hva vi vil!
+        # Vanligvis inkluderer det et kall til fn().
+    return ny_fn
+```
 
 I den nye funksjonen kan vi definere funksjonalitet som skal skje før og etter den dekorerte funksjonen kalles. Eller vi kan la være å kalle den i det hele tatt. Eller vi kan endre argumentene den får inn. Eller...
 
----
+???
 
-# Decorators
+Implementasjon av dekorator
 
-### Et enkelt eksempel 
-
-    .python
-    >>> def foo(fn):
-    ...     print "inne i dekoratoren"
-    ...     def ny_fn():
-    ...         print "starter wrapper-funksjonen"
-    ...         fn()
-    ...         print "slutter wrapper-funksjonen"
-    ...     return ny_fn
-    ... 
-    >>> @foo
-    ... def bar():
-    ...     print "i den dekorerte funksjon"
-    ... 
-    inne i dekoratoren
-    >>> bar()
-    starter wrapper-funksjonen
-    i den dekorerte funksjon
-    slutter wrapper-funksjonen
+- tar inn opprinnelig (dekorert) funksjon
+- returnere ny funksjon
 
 ---
+class: middle
 
-# Decorators
+```python
+>>> def foo(fn):
+...     print "inne i dekoratoren"
+...     def ny_fn():
+...         print "starter wrapper-funksjonen"
+...         fn()
+...         print "slutter wrapper-funksjonen"
+...     return ny_fn
+... 
+>>> @foo
+... def bar():
+...     print "inne i den dekorerte funksjonen"
+... 
+inne i dekoratoren
+>>> bar()
+starter wrapper-funksjonen
+inne i den dekorerte funksjonen
+slutter wrapper-funksjonen
+```
 
-For å dekorere funksjoner med ulikt antall argumenter bruker vi * og **.
+---
+class: middle
 
-### Eksempel 
-
-Dekorator som teller antall argumenter en funksjon får inn:
+For å dekorere funksjoner med ulikt antall argumenter bruker vi \* og \*\*.
     
-    .python
-    >>> def count_args(fn):
-    ...     def wrapper_fn(*args, **kwargs):
-    ...         antall = len(args) + len(kwargs)
-    ...         print "fikk inn %d argumenter" % antall
-    ...         return fn(*args, **kwargs)
-    ...     return wrapper_fn
-    ... 
-    >>> @count_args
-    ... def foo(*args, **kwargs):
-    ...     pass
-    ... 
-    >>> foo()
-    fikk inn 0 argumenter
-    >>> foo(1, 2, 3)
-    fikk inn 3 argumenter
-    >>> foo(1, 2, 3, bar="baz")
-    fikk inn 4 argumenter
-    >>> foo(*range(1000000))
-    fikk inn 1000000 argumenter
+```python
+>>> def count_args(fn):
+...     def wrapper(*args, **kwargs):
+...         antall = len(args) + len(kwargs)
+...         print "fikk inn %d argumenter" % antall
+...         return fn(*args, **kwargs)
+...     return wrapper
+... 
+>>> @count_args
+... def foo(*args, **kwargs):
+...     pass
+... 
+>>> foo()
+fikk inn 0 argumenter
+>>> 
+>>> foo(1, 2, 3)
+fikk inn 3 argumenter
+>>> 
+>>> foo(1, 2, 3, bar="baz")
+fikk inn 4 argumenter
+>>> 
+>>> foo(*range(1000000))
+fikk inn 1000000 argumenter
+```
 
 ---
-
-# Decorators
+class: middle
 
 Det fungerer også fint å stacke dekoratorer på hverandre.
 
-    .python
-    @dekorator1
-    @dekorator2
-    def funksjon():
-        pass
+```python
+@dekorator1
+@dekorator2
+def funksjon():
+    pass
+```
     
-Blir det samme som:
+.center[↓]
 
-    .python
-    def funksjon():
-        pass
-    funksjon = dekorator1(dekorator2(funksjon))
+```python
+def funksjon():
+    pass
+funksjon = dekorator1(dekorator2(funksjon))
+```
 
 ---
+class: middle
 
-# Decorators
+Dekoratorene endrer så langt litt for mye på funksjonene de dekorerer.
 
-Dekoratorene vi har skrevet til nå erstatter funksjonene våre med nye funksjoner.
-Vi har dermed endret på hvordan den dekorerte funksjonen ser ut utenfra, ved å endre navn, doc-string, etc.
-
-
-    .python
-    >>> def buu_dekorator(fn):
-    ...     def ny_fn(*args, **kwargs):
-    ...         # noe artig her
-    ...         return fn(*args, **kwargs)
-    ...     return ny_fn
-    ... 
-    >>> @buu_dekorator
-    ... def foo():
-    ...     """foo sin docstring"""
-    ...     pass
-    ... 
-    >>> foo.__name__
-    ny_fn
-    >>> foo.__doc__
-    None
+```python
+>>> def ftl_decorator(fn):
+...     def wrapper(*args, **kwargs):
+...         # gjør noe artig/nyttig her
+...         return fn(*args, **kwargs)
+...     return wrapper
+... 
+>>> @ftl_decorator
+... def foo():
+...     """foo sin docstring"""
+...     pass
+... 
+>>> foo.__name__
+wrapper
+>>> foo.__doc__
+None
+```
         
-:'( 
-
 ---
-
-# Decorators
+class: middle
 
 Dette kan vi passende nok løse ved hjelp av enda en dekorator!
 
-    .python
-    >>> from functools import wraps
-    >>> 
-    >>> def yay_dekorator(fn):
-    ...     @wraps(fn)
-    ...     def ny_fn(*args, **kwargs):
-    ...         # noe artig her
-    ...         return fn(*args, **kwargs)
-    ...     return ny_fn
-    ... 
-    >>> @yay_dekorator
-    ... def foo():
-    ...     """foo sin docstring"""
-    ...     pass
-    ... 
-    >>> foo.__name__
-    foo
-    >>> foo.__doc__
-    foo sin docstring
+```python
+>>> from functools import wraps
+>>> 
+>>> def ftw_decorator(fn):
+...     @wraps(fn)
+...     def wrapper(*args, **kwargs):
+...         # gjør noe artig/nyttig her
+...         return fn(*args, **kwargs)
+...     return wrapper
+... 
+>>> @ftw_decorator
+... def foo():
+...     """foo sin docstring"""
+...     pass
+... 
+>>> foo.__name__
+foo
+>>> foo.__doc__
+foo sin docstring
+```
 
-:D
+???
+
+Heldigvis er det noen som har laget en dekorator som løser dette problemet.
+
+Bruker functools.wraps til å wrappe funksjonen vi returnerer fra dekoratoren.
+
+...
+
+Men det er en ting som er litt merkelig med `wraps` dekoratoren. Den tar et argument!
 
 ---
-
-# Decorators
+class: middle
 
 Vi kan også lage dekoratorer som tar inn parametere.
 
-    .python
-    >>> def gjenta(ganger):
-    ...     def generert_dekorator(fn):
-    ...         def wrapper(*args, **kwargs):
-    ...             return [fn(*args, **kwargs) for i in range(ganger)]
-    ...         return wrapper
-    ...     return generert_dekorator
-    ... 
-    >>> @gjenta(4)
-    ... def spam():
-    ...     return "spam"
-    ... 
-    >>> spam()
-    ['spam', 'spam', 'spam', 'spam']
+```python
+>>> def repeat(times):
+...     def decorator(fn):
+...         def wrapper(*args, **kwargs):
+...             return [fn(*args, **kwargs) for i in range(times)]
+...         return wrapper
+...     return decorator
+```
 
-Her er `gjenta` egentlig en funksjon som genererer dekoratorer. `gjenta(4)` lager dekoratoren som gjentar funksjonen 4 ganger, som brukes til å dekorere `spam`. Tilsvarende uten det syntaktiske sukkeret blir:
+???
 
-    .python
-    >>> def spam():
-    ...     return "spam"
-    ... 
-    >>> spam = gjenta(4)(spam)
-    >>> spam()
-    ['spam', 'spam', 'spam', 'spam']
+Lager en funksjon som tar inn argument(er).
+
+Denne funksjonen returnerer en dekorator som er definert på samme måte som vi har sett så langt.
 
 
 ---
+class: middle
 
-# Decorators
+```python
+>>> @repeat(4)
+... def spam():
+...     return "spam"
+... 
+>>> spam()
+['spam', 'spam', 'spam', 'spam']
+```
+
+.center[↓]
+
+```python
+>>> def spam():
+...     return "spam"
+... 
+>>> spam = repeat(4)(spam)
+>>> spam()
+['spam', 'spam', 'spam', 'spam']
+```
+
+---
 
 ### Oppgaver
 
+.left-column[
+
 1. Lag en `@ignore` decorator som gjør at kall til den dekorerte funksjonen ikke lenger gjør noenting.
 1. Lag en dekorator `@timed` som tar tiden på den dekorerte funksjonen. 
-1. Lag dekoratoren `@deprecated` som skriver ut en advarsel hvis noen bruker den dekorerte funksjonern. Bonus hvis du klarer å inkludere navnet på funksjonen i advarselen.
-1. Gitt implementasjonen av fibonacci under, lag dekoratoren `@memoize` som lagrer og gjenbruker delløsningene. Regn så ut `fib(100)`.
+1. Lag dekoratoren `@deprecated` som skriver ut en advarsel hvis noen bruker den dekorerte funksjonen. Bonus hvis du klarer å inkludere navnet på funksjonen i advarselen.
+1. Lag dekoratoren `@memoize` som lagrer og gjenbruker delløsningene ved kall til funksjoner. Bruk så denne på `fib` som vist til høyre, og regn ut `fib(100)`.
 
+]
+
+.right-column[
 Slik finner du tidspunkt i Python:
 
-    .python
-    from time import time
-    tidspunkt = time()
+```python
+from time import time
+tidspunkt = time()
+```
 
-Implementasjon av fibonacci:
+Naiv implementasjon av fibonacci:
 
-    .python
-    @memoize
-    def fib(a):
-        if a in (0,1): return a
-        return fib(a-1) + fib(a-2)
+```python
+@memoize
+def fib(a):
+    if a in (0,1): return a
+    return fib(a-1) + fib(a-2)
+```
+]
 
 ---
-
-# Decorators
-
-### Løsninger
+class: middle
+### Løsning
 
 Lag en `@ignore` decorator som gjør at kall til den dekorerte funksjonen ikke lenger gjør noenting.
 
-    .python
-    def ignore(fn):
-        @wraps(fn)
-        def wrapper(*args, **kwargs):
-            pass
-        return wrapper
+```python
+def ignore(fn):
+    @wraps(fn)
+    def wrapper(*args, **kwargs):
+        pass
+    return wrapper
+```
 
+---
+class: middle
+### Løsning
 
 Lag en dekorator `@timed` som tar tiden på den dekorerte funksjonen. 
 
-    .python
-    from time import time
+```python
+from time import time
 
-    def timed(fn):
-        @wraps(fn)
-        def wrapper(*args, **kwargs):
-            start = time()
-            resultat = fn(*args, **kwargs)
-            print "brukte %f sekunder" % (time() - start)
-            return resultat
-        return wrapper
+def timed(fn):
+    @wraps(fn)
+    def wrapper(*args, **kwargs):
+        start = time()
+        resultat = fn(*args, **kwargs)
+        print "brukte %f sekunder" % (time() - start)
+        return resultat
+    return wrapper
+```
 
 ---
-
-# Decorators
-
-### Løsninger
-
-
+class: middle
+### Løsning
 
 Lag dekoratoren `@deprecated` som skriver ut en advarsel hvis noen bruker den dekorerte funksjonern. Bonus hvis du klarer å inkludere navnet på funksjonen i advarselen.
 
-    .python
-    def deprecated(fn):
-        @wraps(fn)
-        def wrapper(*args, **kwargs):
-            print "Warning: '%s' is deprecated!" % fn.__name__
-            return fn(*args, **kwargs)
-        return wrapper
-
-Gitt implementasjonen av fibonacci under, lag dekoratoren `@memoize` som lagrer og gjenbruker delløsningene. Regn så ut `fib(100)`.
-
-    .python
-    def memoize(fn):
-        cache = {}
-        @wraps(fn)
-        def wrapper(arg):
-            if arg in cache:
-                return cache[arg]
-            else:
-                cache[arg] = fn(arg)
-                return cache[arg]
-        return wrapper
+```python
+def deprecated(fn):
+    @wraps(fn)
+    def wrapper(*args, **kwargs):
+        print "Warning: '%s' is deprecated!" % fn.__name__
+        return fn(*args, **kwargs)
+    return wrapper
+```
 
 ---
+class: middle
+### Løsning
+
+Lag dekoratoren `@memoize` som lagrer og gjenbruker delløsningene ved kall til funksjoner. Bruk så denne på `fib` og regn ut `fib(100)`.
+
+```python
+def memoize(fn):
+    cache = {}
+    @wraps(fn)
+    def wrapper(arg):
+        if arg in cache:
+            return cache[arg]
+        else:
+            cache[arg] = fn(arg)
+            return cache[arg]
+    return wrapper
+```
+
+```python
+>>> fib(100)
+354224848179261915075L
+```
+
+---
+class: inverse, middle
 
 # Easter Eggs
 
 The Zen of Python
 
-    .python
-    import this
+```python
+import this
+```
     
 Hva Python-utviklerne tenker om { og }
 
-    .python
-    from __future__ import braces
+```python
+from __future__ import braces
+```
 
 Alternaltiv implementasjon av Hello World
 
-    .python
-    import __hello__
+```python
+import __hello__
+```
 
 Og sist men ikke minst:
 
-    .python
-    import antigravity
+```python
+import antigravity
+```
 
 ---
 
-# Oppsummering
+# TL;DR
 
-- *List comprehensions* er en hendig syntaks for å lage/filtrere/mutere lister.
-- *Generatorer* gir oss muligheten til å generere (uendelig) lange sekvenser uten at disse må lagres i minnet.
+- ***List comprehensions*** er en hendig syntaks for å lage/filtrere/mutere lister.
+- ***Generatorer*** gir oss muligheten til å generere (uendelig) lange sekvenser uten at disse må lagres i minnet.
   - Generator-uttrykk er en kompakt og konsis syntaks for å lage generatorer.
-- *Funksjoner* er første-klasses i Python, og kan derfor:
+- ***Funksjoner*** er første-klasses i Python, og kan derfor:
   - Brukes som argumenter og returverdier fra andre funksjoner.
   - Tilordnes variabler.
   - Lagres i datastrukturer.
-- *Lambdaer* er enlinjes funksjoner uten navn.
-- *Dekoratorer* lar oss endre funksjonalitet på eksisterende funksjoner uten å endre dem direkte.
+- ***Lambdaer*** er enlinjes funksjoner uten navn.
+- ***Dekoratorer*** lar oss endre funksjonalitet på eksisterende funksjoner uten å endre dem direkte.
   - Dekoratorene erstatter den dekorerte funksjonen med en ny funksjon.
   - I praksis bare hendig syntax for å drive med høyere ordens programmering.
 
 ---
+class: center, middle, inverse
 
-.middle.center
-
-# Spørsmål?
-
-Kom og jobb hos [oss i BEKK](http://www.bekk.no/jobb/stillinger/)
+# Takk for oss
 
     </textarea>
-    <div id="slideshow"></div>
+    <script src="remark-0.5.5.min.js" type="text/javascript"></script>
+    <script type="text/javascript">
+      var slideshow = remark.create({
+          highlightStyle: 'monokai',
+          highlightLanguage: 'no-highlight'
+        }) ;
+    </script>
   </body>
 </html>
