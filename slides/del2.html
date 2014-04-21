@@ -12,14 +12,14 @@ class: center, middle, inverse
 
 # Idiomatisk python
 
-Magnus Haug / Kjetil Valle
+Kjetil Valle
 
 ---
 class: inverse, middle, right
 
 ## Agenda
 
-List comprehension  
+List comprehensions  
 Iteratorer og generatorer  
 Generator expressions  
 
@@ -156,6 +156,14 @@ Lag en liste med alle tall mellom 1 og 100 som er delelig på enten 3 eller 7 me
 98, 99]
 ```
 
+???
+
+alternativ løsning:
+
+```python
+[x for x in range(1,100) if (x%3==0) != (x%7==0)]
+```
+
 ---
 class: middle
 
@@ -217,8 +225,9 @@ StopIteration
 ???
 
 Iteratorer er kanskje ikke veldig spennende, men det er en viktig byggesten.
-Flere av de python-elementene vi allerede kjenner kan fungere som iteratorer..
-F.eks. lister:
+Flere av de python-elementene vi allerede kjenner kan itereres over.
+
+For å lage en iterator fra et objekt som støtter dette bruker vi funksjonen `iter`.
 
 ---
 class: middle
@@ -264,7 +273,7 @@ Og bruke den:
 ---
 class: middle
 
-Dette var mye styr, kan det gjøres enklere? Yep, med generatorer:
+Dette var mye styr, kan det gjøres enklere? Jepp, med generatorer:
 
 ```python
 def countdown(i):
@@ -300,7 +309,7 @@ Hva er nytteverdien? Uendelige lister, store datamengder:
 
 ???
 
-*Spørsmål: Hvordan holder man en uendelig liste i minne?!*
+Nyttig modul: `itertools`
 
 ---
 class: middle, inverse, center
@@ -347,15 +356,17 @@ Et list comprehension kan automagisk skrives som en generator:
 ---
 class: middle
 
-### Generatorer
-
-- Raskt
-- Bruker mindre minne
-- Kan representere uendelige lister
-
 ### Iteratorer
 
-- Kan tilbys som del av API-et til din datastruktur
+- Interface for å iterere over datastrukturer
+- Kan tilbys som del av ditt API
+- Representerer datastruktur uten å holde hele i minnet
+- Mulig å lage uendelige datastrukturer
+
+### Generator (expressions)
+
+- Spesiell form for iterator
+- Raskere å lage
 
 ### Lister
 
@@ -363,18 +374,21 @@ class: middle
 - Støtter `append`, `insert`, `len`, `sort`, etc.
 - Kan aksesseres ved hjelp av indeks/slicing
 
-
 ---
 class: middle
 
 ### Oppgaver:
 
-1. Lag en list comprehension som lister opp alle partall under 20, og print dem
+1. Lag en list comprehension som lister opp alle partall under 20, og print dem.
 1. Lag et generator expression som gjør det samme. Print dem.
-1. Lag en generator som lister opp ALLE positive partall.
-1. Lag et generator expression som lister opp ALLE positive partall.
-1. Print de første 20 av dem, f.eks. slik:  
-    `print [alle_partall.next() for i in xrange(20)]`
+1. Lag en generator-funksjon som lister opp ALLE positive partall.  
+    *Tips: For å printe de 10 første, bruk en for-løkke eller en comprehension:*
+    ```python
+    >>> p = partall()
+    >>> [p.next() for _ in range(10)]
+    [0, 2, 4, 6, 8, 10, 12, 14, 16, 18]
+    ```
+1. Skriv `partall`-funksjonen om til et generator expression.
 1. Lag en generator som generer tall-sekvensen 1, -1, 2, -2, 3, -3, ...
 1. Lag en generator som genererer fibonacci-tallene.
    Bruk denne til å finne det 100 000'ende fibonacci-tallet.
@@ -383,7 +397,7 @@ class: middle
 class: middle
 ### Løsning
 
-Lag en list comprehension som lister opp alle partall under 20, og print dem
+Lag en list comprehension som lister opp alle partall under 20, og print dem.
 
 ```python
 >>> partall = [i for i in xrange(20) if i%2==0]
@@ -414,7 +428,7 @@ class: middle
 Lag en generator som lister opp ALLE positive partall.
 
 ```python
->>> def alle_partall():
+>>> def partall():
 ...     i = 0
 ...     while True:
 ...         if i%2 == 0:
@@ -589,8 +603,8 @@ class: middle
 1. Lag funksjonen `apply_fn` som tar som parametere en funksjon `fn` og en rekke verdier. Funksjonen returnerer resultatet av å kalle `fn` med verdiene som argumenter.
 
     ```python
-    >>> apply_fn(sum, [8, 2, 13, 4, 10, 5])
-    42
+    >>> apply_fn(range, 3, 14, 3)
+    [3, 6, 9, 12]
     ```
 
 1. Lag en funksjon `make_adder`, som tar et argument `n` og returnerer en funksjon som som legger `n` til sitt argument.
@@ -1060,8 +1074,8 @@ import antigravity
 # TL;DR
 
 - ***List comprehensions*** er en hendig syntaks for å lage/filtrere/mutere lister.
-- ***Generatorer*** gir oss muligheten til å generere (uendelig) lange sekvenser uten at disse må lagres i minnet.
-  - Generator-uttrykk er en kompakt og konsis syntaks for å lage generatorer.
+- ***Iteratorer*** gir oss muligheten til å representere (uendelig) lange sekvenser uten at disse må lagres i minnet.
+  - Generator-funksjoner og -uttrykk er en kompakt og konsis syntaks for å lage iteratorer.
 - ***Funksjoner*** er første-klasses i Python, og kan derfor:
   - Brukes som argumenter og returverdier fra andre funksjoner.
   - Tilordnes variabler.
