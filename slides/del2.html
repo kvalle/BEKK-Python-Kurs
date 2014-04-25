@@ -212,7 +212,7 @@ class: middle
 >>> it = iter(items)
 >>> it.next()
 1
->>> it.next()
+>>> next(it) # `next`-funksjonen kan også brukes til dette
 4
 >>> it.next()
 5
@@ -474,8 +474,8 @@ Bruk denne til å finne det 100 000'ende fibonacci-tallet.
 ...     a, b = 1, 1
 ...     yield a
 ...     while True:
-...             yield a
-...             a, b = a+b, a
+...         yield a
+...         a, b = a+b, a
 >>> a = fib()
 >>> for i in xrange(100000):
 ...     result  = a.next()
@@ -639,13 +639,13 @@ class: middle
 Lag funksjonen `apply_fn` som tar som parametere en funksjon `fn` og en rekke verdier. Funksjonen returnerer resultatet av å kalle `fn` med verdiene som argumenter.
 
 ```python
-def apply_fn(fn, *args):
-    return fn(*args)
-```
-
-```python
+>>> def apply_fn(fn, *args):
+...    return fn(*args)
+... 
 >>> apply_fn(sum, [8, 2, 13, 4, 10, 5])
 42
+>>> apply_fn(range, 3, 14, 3)
+[3, 6, 9, 12]
 ```
 
 ---
@@ -657,9 +657,7 @@ Lag en funksjon `make_adder`, som tar et parameter `n` og returnerer en funksjon
 ```python
 >>> def make_adder(x):
 ...     return lambda y: x + y
-```
-
-```python
+... 
 >>> add_two = make_adder(2)
 >>> add_two(40)
 42
@@ -896,15 +894,29 @@ Men det er en ting som er litt merkelig med `wraps` dekoratoren. Den tar et argu
 ---
 class: middle
 
+Funksjon som lager generatorer
+
+```python
+def decorator_factory(param):
+    def decorator(fn):
+        def wrapper_funksjon(*args, **kwargs):
+            # gjør noe spennende her
+        return wrapper
+    return decorator
+```
+
+---
+class: middle
+
 Vi kan også lage dekoratorer som tar inn parametere.
 
 ```python
->>> def repeat(times):
-...     def decorator(fn):
-...         def wrapper(*args, **kwargs):
-...             return [fn(*args, **kwargs) for i in range(times)]
-...         return wrapper
-...     return decorator
+def repeat(times):
+    def decorator(fn):
+        def wrapper(*args, **kwargs):
+            return [fn(*args, **kwargs) for i in range(times)]
+        return wrapper
+    return decorator
 ```
 
 ???
@@ -1041,6 +1053,27 @@ def memoize(fn):
 ```
 
 ---
+
+# TL;DR
+
+- ***List comprehensions*** er en hendig syntaks for å lage/filtrere/mutere lister.
+- ***Iteratorer*** gir oss muligheten til å representere (uendelig) lange sekvenser uten at disse må lagres i minnet.
+  - Generator-funksjoner og -uttrykk er en kompakt og konsis syntaks for å lage iteratorer.
+- ***Funksjoner*** er første-klasses i Python, og kan derfor:
+  - Brukes som argumenter og returverdier fra andre funksjoner.
+  - Tilordnes variabler.
+  - Lagres i datastrukturer.
+- ***Lambdaer*** er enlinjes funksjoner uten navn.
+- ***Dekoratorer*** lar oss endre funksjonalitet på eksisterende funksjoner uten å endre dem direkte.
+  - Dekoratorene erstatter den dekorerte funksjonen med en ny funksjon.
+  - I praksis bare hendig syntax for å drive med høyere ordens programmering.
+
+---
+class: center, middle, inverse
+
+# Takk for oss
+
+---
 class: inverse, middle
 
 # Easter Eggs
@@ -1069,26 +1102,6 @@ Og sist men ikke minst:
 import antigravity
 ```
 
----
-
-# TL;DR
-
-- ***List comprehensions*** er en hendig syntaks for å lage/filtrere/mutere lister.
-- ***Iteratorer*** gir oss muligheten til å representere (uendelig) lange sekvenser uten at disse må lagres i minnet.
-  - Generator-funksjoner og -uttrykk er en kompakt og konsis syntaks for å lage iteratorer.
-- ***Funksjoner*** er første-klasses i Python, og kan derfor:
-  - Brukes som argumenter og returverdier fra andre funksjoner.
-  - Tilordnes variabler.
-  - Lagres i datastrukturer.
-- ***Lambdaer*** er enlinjes funksjoner uten navn.
-- ***Dekoratorer*** lar oss endre funksjonalitet på eksisterende funksjoner uten å endre dem direkte.
-  - Dekoratorene erstatter den dekorerte funksjonen med en ny funksjon.
-  - I praksis bare hendig syntax for å drive med høyere ordens programmering.
-
----
-class: center, middle, inverse
-
-# Takk for oss
 
     </textarea>
     <script src="remark-0.5.5.min.js" type="text/javascript"></script>
